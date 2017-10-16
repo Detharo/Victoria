@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Victoria 2
+                    Victoria
                 </div>
 
                 <div class="links">
