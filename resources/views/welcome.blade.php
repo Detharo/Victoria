@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Victoria
+                    Hola Mundo
                 </div>
 
                 <div class="links">
