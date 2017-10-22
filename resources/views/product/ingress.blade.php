@@ -69,15 +69,13 @@
 
                             <div class="form-group{{ $errors->has('type_product') ? ' has-error' : '' }}">
                                 <label for="type_product" class="col-md-4 control-label">Tipo Producto:</label>
-
                                 <div class="col-md-6">
-                                    <input id="type_product" type="text" class="form-control" name="type_product" value="{{ old('type_product') }}" required autofocus>
-
-                                    @if ($errors->has('type_product'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('type_product') }}</strong>
-                                    </span>
-                                    @endif
+                                <select name="type_product" id="" class="form-control">
+                                    <option value="">Seleccione Tipo...</option>
+                                    @foreach($typeProduct as $type)
+                                        <option value="{{ $type->id }}"> {{$type->description}} </option>
+                                        @endforeach
+                                </select>
                                 </div>
                             </div>
 
@@ -109,19 +107,23 @@
                                 </div>
                             </div>
 
+
+
                             <div class="form-group{{ $errors->has('cod_status') ? ' has-error' : '' }}">
                                 <label for="cod_status" class="col-md-4 control-label">Estado del Producto:</label>
 
                                 <div class="col-md-6">
-                                    <input id="cod_status" type="text" class="form-control" name="cod_status" value="{{ old('cod_status') }}" required autofocus>
 
-                                    @if ($errors->has('cod_status'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('cod_status') }}</strong>
-                                    </span>
-                                    @endif
+                                    <select name="cod_status" id="" class="form-control">
+                                        <option value="">Seleccione Estado...</option>
+                                        @foreach($statusProduct as $type)
+                                            <option value="{{ $type->id }}"> {{$type->description}} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
+
+
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

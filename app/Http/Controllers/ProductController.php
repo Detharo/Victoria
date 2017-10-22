@@ -28,7 +28,12 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('product.ingress');
+        $statusProduct = StatusProduct::all();
+        $typeProduct = TypeProduct::all();
+
+
+
+        return view('product.ingress',compact('typeProduct','statusProduct'));
     }
 
     /**
@@ -83,6 +88,19 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
+
+    public function list (Product $product)
+    {
+        $product = Product::all();
+        $statusProduct = StatusProduct::all();
+        $typeProduct = TypeProduct::all();
+
+
+
+        return view('product.list',compact('typeProduct','statusProduct', 'product'));
+
+    }
+
     public function edit(Product $product)
     {
         //
