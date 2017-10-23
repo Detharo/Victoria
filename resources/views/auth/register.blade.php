@@ -53,6 +53,7 @@
                             </div>
                         </div>
 
+
                         <div class="form-group">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
@@ -60,6 +61,21 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('type_user') ? ' has-error' : '' }}">
+                            <label for="type_user" class="col-md-4 control-label">Tipo de Usuario</label>
+
+                            <div class="col-md-6">
+                                <input id="type_user" type="text" class="form-control" name="type_user" value="{{ old('type_user') }}" required autofocus>
+
+                                @if ($errors->has('type_user'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('type_user') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

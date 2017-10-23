@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\StatusProduct;
 use App\TypeProduct;
+use App\TypeUser;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -91,7 +92,7 @@ class ProductController extends Controller
 
     public function list (Product $product)
     {
-        $product = Product::all();
+        $product = Product::paginate(5);
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
 
@@ -99,6 +100,11 @@ class ProductController extends Controller
 
         return view('product.list',compact('typeProduct','statusProduct', 'product'));
 
+    }
+    public function rusuario()
+    {
+        $typeUser = TypeUser::all();
+        return view('product.registerU',compact('typeUser'));
     }
 
     public function edit(Product $product)

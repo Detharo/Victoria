@@ -81,6 +81,7 @@
                 <div class="title m-b-md">
                     Victoria
                 </div>
+                <h4>Sistema de Administración, Gestión y Ventas</h4>
 
                 <div class="row">
                     <img src="{{ asset('/img/logoDA.png') }}" alt="Don Agustin" width="150" height="150"/>

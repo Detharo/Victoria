@@ -16,9 +16,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <table class="table table-bordered">
+                                <table class="table table-stripped">
                                     <thead>
-                                    <tr>
+                                    <tr class="active">
                                         <th>Nombre</th>
                                         <th>Marca</th>
                                         <th>Precio</th>
@@ -59,7 +59,7 @@
 
                                     </tbody>
                                 </table>
-
+                                {{ $product->links() }}
                             </div>
                         </div>
                     </div>
