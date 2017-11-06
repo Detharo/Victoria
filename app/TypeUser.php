@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class TypeUser extends Model
 {
     //
-    protected $table = 'type_users';
 
-    protected $fillable = [
-        'description'
-    ];
+	protected $table = 'type_users';
 
-    public function user(){
-        $this->hasMany('App/User');
-    }
+	protected $fillable = [
+		'TUS_description'
+	];
+
+	public function user(){
+		$this->hasMany('App/User');
+	}
 
 }

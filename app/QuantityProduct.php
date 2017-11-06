@@ -2,30 +2,26 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class QuantityProduct extends Model
 {
-    use Notifiable;
+    //
+	protected $table = 'quantity_products';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email','TUS_id', 'password',
-    ];
+	protected $fillable = [
+	    'QTY_id',
+		'QTY_description',
+		'PDT_id',
+		'STS_id',
+	];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', '_remember_token',
-    ];
+    public function Products(){
+		$this->hasMany('App/Products');
+	}
+	public function StatusProduct(){
+		$this->hasMany('App/StatusProduct');
+	}
 
     /**
      * Get the connection of the entity.

@@ -24,3 +24,5 @@ Route::resource('/product','ProductController');
 Route::get('/productos','ProductController@list');
 
 Route::get('/rusuario','ProductController@rusuario');
+
+

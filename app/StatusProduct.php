@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class StatusProduct extends Model
 {
     //
-    protected $table = 'status_products';
+	protected $table = 'status_products';
 
-    protected $fillable = [
-      'description'
-    ];
+	protected $fillable =[
+		'STS_description'
+	];
 
-    public function product(){
-        $this->hasMany('App/Product');
-    }
+
+    public function QuantityProduct()
+	{
+		$this->belongsTo('App/QuantityProduct');
+	}
 }

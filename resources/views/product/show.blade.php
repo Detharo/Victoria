@@ -10,10 +10,8 @@
                     <div class="panel-body">
                         <strong>Marca</strong><p>{{$product->brand}}</p>
                         <strong>Precio</strong><p>{{$product->price}}</p>
-                        <strong>Cantidad</strong><p>{{$product->quantity}}</p>
                         <strong>Tipo de Producto:</strong><p>{{$product->type_product}}</p>
                         <strong>Código de Producto</strong><p>{{$product->cod_product}}</p>
-                        <strong>Estado del Producto</strong><p>{{$product->cod_status}}</p>
                         <strong>Descripción de Producto</strong><p>{{$product->des_product}}</p>
 
                     </div>

@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class TypeProduct extends Model
 {
     //
-    protected $table = 'type_products';
 
-    protected $fillable = [
-        'description'
-    ];
+	protected $table = 'type_products';
 
-    public function product(){
-        $this->hasMany('App/Product');
-    }
+	protected $fillable = [
+		'TPR_description'
+	];
+
+	public function product(){
+		$this->hasMany('App/Products');
+	}
+
 }

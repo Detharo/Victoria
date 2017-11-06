@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\QuantityProduct;
 use App\StatusProduct;
 use App\TypeProduct;
 use App\TypeUser;
@@ -29,12 +30,11 @@ class ProductController extends Controller
     public function create()
     {
         //
-        $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
 
 
 
-        return view('product.ingress',compact('typeProduct','statusProduct'));
+        return view('product.ingress',compact('typeProduct'));
     }
 
     /**
@@ -45,29 +45,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //validacion
-        $this->validate($request,[
-           'name' => 'required|string',
-           'brand' => 'required|string',
-            'price' => 'required|integer',
-            'quantity' => 'required|integer',
-            'cod_product' => 'required|string',
-            'des_product' => 'required|string',
-        ]);
+        //validacion        $this->validate($request,[           'PRD_name' => 'required|string',           'PRD_brand' => 'required|string',            PRD_price' => 'required|integer',            'PRD_code' => 'required|string',            'PRD_description' => 'required|string',        ]);
         //almacenamiento
+
         $product = new Product();
         // ($product->name) = ES EL ATRIBUTO DE LA BDD
         // ($request->name) = VIENE DEL FORMULARIO VISTA
-        $product->name = $request->name;
-        $product->brand = $request->brand;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->type_product = $request->type_product;
-        $product->cod_product = $request-> cod_product;
-        $product->des_product = $request->des_product;
-        $product->cod_status = $request->cod_status;
+        $product->PDT_code = $request-> PDT_code;
+        $product->PDT_name = $request->PDT_name;
+        $product->PDT_brand = $request->PDT_brand;
+        $product->PDT_price = $request->PDT_price;
+        $product->TPR_type = $request->TPR_type;
+        $product->PDT_description = $request->PDT_description;
         $product->save();
-        //redirección
+        //redirección<
+
         return 'Se ha ingresado el producto';
     }
 
@@ -92,13 +84,14 @@ class ProductController extends Controller
 
     public function list (Product $product)
     {
-        $product = Product::paginate(5);
+        $product = Product::all();
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
+        $quantityProduct = QuantityProduct::all();
 
 
 
-        return view('product.list',compact('typeProduct','statusProduct', 'product'));
+        return view('product.list',compact('typeProduct','statusProduct', 'product','quantityProduct'));
 
     }
     public function rusuario()

@@ -6,24 +6,58 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    //a que tabla se hace referencia
-    protected $table='products';
+    //
+	protected $table = 'products';
 
-    //los campos que son asignables masivamente
-    protected $fillable =[
-        'name',
-        'brand',
-        'price',
-        'quantity',
-        'type_product',
-        'cod_product',
-        'des_product',
-        'cod_status'
-    ];
-    public function StatusProduct(){
-        $this->belongsTo('App/StatusProduct');
+	protected $fillable =[
+		'PDT_id',
+		'PDT_name',
+		'PDT_brand',
+		'PDT_price',
+		'TPR_type',
+		'PDT_code',
+		'PDT_description'
+	];
+
+	public function TypeProduct()
+	{
+		$this->belongsTo('App/TypeProduct');
+	}
+	public function DecreaseProduct()
+	{
+        $this->belongsTo('App/DecreaseProduct');
+	}
+	public function QuantityProduct()
+	{
+        $this->belongsTo('App/QuantityProduct');
+	}
+	public function SoldProduct()
+	{
+        $this->belongsTo('App/SoldProduct');
+	}
+	public function OfferProduct()
+	{
+        $this->belongsTo('App/OfferProduct');
+	}
+
+    /**
+     * Get the connection of the entity.
+     *
+     * @return string|null
+     */
+    public function getQueueableConnection()
+    {
+        // TODO: Implement getQueueableConnection() method.
     }
-    public function TypeProduct(){
-        $this->belongsTo('App/TypeProduct');
+
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed $value
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value)
+    {
+        // TODO: Implement resolveRouteBinding() method.
     }
 }
