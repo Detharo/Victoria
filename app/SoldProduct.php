@@ -8,16 +8,16 @@ class SoldProduct extends Model
 {
     //
 
-protected $table = 'sold_products';
+    protected $table = 'sold_products';
 
-	protected $fillable = [
-		'PDT_id',
-		'SLD_description'
-	];
+    protected $fillable = [
+        'PDT_id',
+        'SLD_description'
+    ];
 
     public function Products(){
-		$this->hasMany('App/Products');
-	}
+        $this->hasMany('App/Products');
+    }
 
     /**
      * Get the connection of the entity.

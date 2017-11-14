@@ -7,6 +7,7 @@ use App\QuantityProduct;
 use App\StatusProduct;
 use App\TypeProduct;
 use App\TypeUser;
+use App\WeightProduct;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -31,10 +32,11 @@ class ProductController extends Controller
     {
         //
         $typeProduct = TypeProduct::all();
+        $typeWeight = WeightProduct::all();
 
 
 
-        return view('product.ingress',compact('typeProduct'));
+        return view('product.ingress',compact('typeProduct','typeWeight'));
     }
 
     /**
@@ -56,6 +58,8 @@ class ProductController extends Controller
         $product->PDT_brand = $request->PDT_brand;
         $product->PDT_price = $request->PDT_price;
         $product->TPR_type = $request->TPR_type;
+        $product->PDT_weight = $request->PDT_weight;
+        $product->WGT_type = $request->WGT_type;
         $product->PDT_description = $request->PDT_description;
         $product->save();
         //redirección<

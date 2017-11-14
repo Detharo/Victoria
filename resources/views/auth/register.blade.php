@@ -39,6 +39,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
+                            <label for="rut" class="col-md-4 control-label">RUT</label>
+
+                            <div class="col-md-6">
+                                <input id="rut" type="text" maxlength="12" class="form-control" name="rut" value="{{ old('rut') }}" required autofocus>
+
+                                @if ($errors->has('rut'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('rut') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -62,15 +76,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('type_user') ? ' has-error' : '' }}">
-                            <label for="type_user" class="col-md-4 control-label">Tipo de Usuario</label>
+                        <div class="form-group{{ $errors->has('TUS_id') ? ' has-error' : '' }}">
+                            <label for="TUS_id" class="col-md-4 control-label">Tipo de Usuario</label>
 
                             <div class="col-md-6">
-                                <input id="type_user" type="text" class="form-control" name="type_user" value="{{ old('type_user') }}" required autofocus>
+                                <input id="TUS_id" type="text" class="form-control" name="TUS_id" value="{{ old('TUS_id') }}" required autofocus>
 
-                                @if ($errors->has('type_user'))
+                                @if ($errors->has('TUS_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('type_user') }}</strong>
+                                        <strong>{{ $errors->first('TUS_id') }}</strong>
                                     </span>
                                 @endif
                             </div>

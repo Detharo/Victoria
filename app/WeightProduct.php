@@ -4,18 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TypeProduct extends Model
+class WeightProduct extends Model
 {
     //
-
-    protected $table = 'type_products';
+    protected $table = 'weight_products';
 
     protected $fillable = [
-        'TPR_description'
+        'WGT_description'
     ];
 
     public function product(){
         $this->hasMany('App/Products');
     }
-
 }

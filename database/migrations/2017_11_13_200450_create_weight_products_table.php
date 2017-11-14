@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeUsersTable extends Migration
+class CreateWeightProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTypeUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('description');
+        Schema::create('weight_products', function (Blueprint $table) {
+            $table->increments('WGT_id');
+            $table->string('WGT_description');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateTypeUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_users');
+        Schema::dropIfExists('weight_products');
     }
 }

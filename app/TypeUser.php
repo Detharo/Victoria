@@ -8,14 +8,14 @@ class TypeUser extends Model
 {
     //
 
-	protected $table = 'type_users';
+    protected $table = 'type_users';
 
-	protected $fillable = [
-		'TUS_description'
-	];
+    protected $fillable = [
+        'TUS_description'
+    ];
 
-	public function user(){
-		$this->hasMany('App/User');
-	}
+    public function user(){
+        $this->hasMany('App/User');
+    }
 
 }

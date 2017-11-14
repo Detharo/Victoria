@@ -7,21 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class QuantityProduct extends Model
 {
     //
-	protected $table = 'quantity_products';
+    protected $table = 'quantity_products';
 
-	protected $fillable = [
-	    'QTY_id',
-		'QTY_description',
-		'PDT_id',
-		'STS_id',
-	];
+    protected $fillable = [
+        'QTY_description',
+        'PDT_id',
+        'STS_id',
+    ];
 
     public function Products(){
-		$this->hasMany('App/Products');
-	}
-	public function StatusProduct(){
-		$this->hasMany('App/StatusProduct');
-	}
+        $this->hasMany('App/Products');
+    }
+    public function StatusProduct(){
+        $this->hasMany('App/StatusProduct');
+    }
 
     /**
      * Get the connection of the entity.

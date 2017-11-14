@@ -25,4 +25,9 @@ Route::get('/productos','ProductController@list');
 
 Route::get('/rusuario','ProductController@rusuario');
 
+Route::resource('/typeproduct','TypeProductController');
+
+Route::resource('/statusproduct','StatusProductController');
+
+
 

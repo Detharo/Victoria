@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TypeProduct;
 use Illuminate\Http\Request;
+use PHPUnit\Util\Type;
 
 class TypeProductController extends Controller
 {
@@ -25,6 +26,9 @@ class TypeProductController extends Controller
     public function create()
     {
         //
+        $TypeProduct = TypeProduct::all();
+        return view('home.TypeProduct',compact('TypeProduct'));
+
     }
 
     /**
@@ -36,6 +40,14 @@ class TypeProductController extends Controller
     public function store(Request $request)
     {
         //
+        $TypeProduct = new TypeProduct();
+        // ($product->name) = ES EL ATRIBUTO DE LA BDD
+        // ($request->name) = VIENE DEL FORMULARIO VISTA
+        $TypeProduct->TPR_description = $request-> TPR_description;
+        $TypeProduct->save();
+        //redirección<
+
+        return redirect()->back();
     }
 
     /**

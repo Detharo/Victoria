@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class DecreaseProduct extends Model
 {
     //
-	protected $table = 'decrease_products';
+    protected $table = 'decrease_products';
 
-	protected $fillable = [
-		'PDT_id',
-		'DCS_quantity'
-	];
+    protected $fillable = [
+        'PDT_id',
+        'DCS_quantity'
+    ];
 
     public function Products(){
-		$this->hasMany('App/Products');
-	}
+        $this->hasMany('App/Products');
+    }
 
     /**
      * Get the connection of the entity.

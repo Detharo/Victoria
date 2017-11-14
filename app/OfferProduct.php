@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class OfferProduct extends Model
 {
     //
-	protected $table = 'offer_products';
+    protected $table = 'offer_products';
 
-	protected $fillable = [
-		'PDT_id',
-		'OFF_price',
-		'OFF_quantity'
-	];
+    protected $fillable = [
+        'PDT_id',
+        'OFF_price',
+        'OFF_quantity'
+    ];
 
     public function Products(){
-		$this->hasMany('App/Products');
-	}
+        $this->hasMany('App/Products');
+    }
 
     /**
      * Get the connection of the entity.

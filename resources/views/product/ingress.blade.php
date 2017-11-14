@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -13,7 +14,7 @@
                         <form class="form-horizontal" method="POST" action="{{ route('product.store') }}">
                             {{ csrf_field() }}
 
-
+                            <!---------------------------------------------CÓDIGO PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_code') ? ' has-error' : '' }}">
                                 <label for="PDT_code" class="col-md-4 control-label">Código de Producto:</label>
 
@@ -27,7 +28,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                                <!---------------------------------------------NOMBRE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">Nombre:</label>
 
@@ -41,7 +42,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                                <!---------------------------------------------MARCA---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_brand') ? ' has-error' : '' }}">
                                 <label for="PDT_brand" class="col-md-4 control-label">Marca:</label>
 
@@ -55,7 +56,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                                <!--------------------------------------------- PRECIO ---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_price') ? ' has-error' : '' }}">
                                 <label for="PDT_price" class="col-md-4 control-label">Precio:</label>
 
@@ -69,21 +70,44 @@
                                     @endif
                                 </div>
                             </div>
-
+                                <!---------------------------------------------TIPO DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('TPR_type') ? ' has-error' : '' }}">
                                 <label for="TPR_type" class="col-md-4 control-label">Tipo Producto:</label>
                                 <div class="col-md-6">
                                 <select name="TPR_type" id="" class="form-control">
-                                    <option value="">Seleccione Tipo...</option>
+                                    <option value="">Seleccione Tipo de Producto...</option>
                                     @foreach($typeProduct as $type)
                                         <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
                                         @endforeach
                                 </select>
                                 </div>
                             </div>
+                                <!---------------------------------------------PESO---------------------------------------------------->
+                            <div class="form-group{{ $errors->has('PDT_weight') ? ' has-error' : '' }}">
+                                <label for="PDT_weight" class="col-md-4 control-label">Peso:</label>
+
+                                <div class="col-md-2">
+                                    <input id="PDT_weight" type="text" class="form-control" name="PDT_weight" value="{{ old('PDT_weight') }}" required autofocus>
+
+                                    @if ($errors->has('PDT_weight'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('PDT_weight') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <!---------------------------------------------TIPO DE PESO---------------------------------------------------->
+                                <div class="col-md-4">
+                                    <select name="WGT_type" id="" class="form-control">
+                                        <option value="">Seleccione Tipo de Peso...</option>
+                                        @foreach($typeWeight as $type)
+                                            <option value="{{ $type->WGT_id }}"> {{$type->WGT_description}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
 
-
+                                <!---------------------------------------------DESCRIPCION DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_description') ? ' has-error' : '' }}">
                                 <label for="PDT_description" class="col-md-4 control-label">Descripción del Producto:</label>
 
@@ -114,4 +138,5 @@
             </div>
         </div>
     </div>
+
 @endsection

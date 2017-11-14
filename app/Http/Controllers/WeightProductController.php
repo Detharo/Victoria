@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\StatusProduct;
+use App\WeightProduct;
 use Illuminate\Http\Request;
-use PHPUnit\Util\Type;
 
-class StatusProductController extends Controller
+class WeightProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,9 +25,6 @@ class StatusProductController extends Controller
     public function create()
     {
         //
-        $StatusProduct = StatusProduct::all();
-        return view('home.status',compact('StatusProduct'));
-
     }
 
     /**
@@ -40,23 +36,15 @@ class StatusProductController extends Controller
     public function store(Request $request)
     {
         //
-        $StatusProduct = new StatusProduct();
-        // ($product->name) = ES EL ATRIBUTO DE LA BDD
-        // ($request->name) = VIENE DEL FORMULARIO VISTA
-        $StatusProduct->STS_description = $request-> STS_description;
-        $StatusProduct->save();
-        //redirección<
-
-        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\StatusProduct  $StatusProduct
+     * @param  \App\WeightProduct  $weightProduct
      * @return \Illuminate\Http\Response
      */
-    public function show(StatusProduct $StatusProduct)
+    public function show(WeightProduct $weightProduct)
     {
         //
     }
@@ -64,10 +52,10 @@ class StatusProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\StatusProduct  $StatusProduct
+     * @param  \App\WeightProduct  $weightProduct
      * @return \Illuminate\Http\Response
      */
-    public function edit(StatusProduct $StatusProduct)
+    public function edit(WeightProduct $weightProduct)
     {
         //
     }
@@ -76,10 +64,10 @@ class StatusProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\StatusProduct  $StatusProduct
+     * @param  \App\WeightProduct  $weightProduct
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StatusProduct $StatusProduct)
+    public function update(Request $request, WeightProduct $weightProduct)
     {
         //
     }
@@ -87,10 +75,10 @@ class StatusProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\StatusProduct  $StatusProduct
+     * @param  \App\WeightProduct  $weightProduct
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StatusProduct $StatusProduct)
+    public function destroy(WeightProduct $weightProduct)
     {
         //
     }
