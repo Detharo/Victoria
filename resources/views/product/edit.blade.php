@@ -6,15 +6,15 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default clearfix">
-                    
+
                     <div class="panel-heading ">Registro de Producto</div>
 
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('product.store') }}">
-                            {{ csrf_field() }}
+                        {{ csrf_field() }}
 
-                            <!---------------------------------------------CÓDIGO PRODUCTO---------------------------------------------------->
+                        <!---------------------------------------------CÓDIGO PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_code') ? ' has-error' : '' }}">
                                 <label for="PDT_code" class="col-md-4 control-label">Código de Producto:</label>
 
@@ -28,7 +28,7 @@
                                     @endif
                                 </div>
                             </div>
-                                <!---------------------------------------------NOMBRE PRODUCTO---------------------------------------------------->
+                            <!---------------------------------------------NOMBRE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">Nombre:</label>
 
@@ -42,7 +42,7 @@
                                     @endif
                                 </div>
                             </div>
-                                <!---------------------------------------------MARCA---------------------------------------------------->
+                            <!---------------------------------------------MARCA---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_brand') ? ' has-error' : '' }}">
                                 <label for="PDT_brand" class="col-md-4 control-label">Marca:</label>
 
@@ -56,7 +56,7 @@
                                     @endif
                                 </div>
                             </div>
-                                <!--------------------------------------------- PRECIO ---------------------------------------------------->
+                            <!--------------------------------------------- PRECIO ---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_price') ? ' has-error' : '' }}">
                                 <label for="PDT_price" class="col-md-4 control-label">Precio:</label>
 
@@ -70,19 +70,19 @@
                                     @endif
                                 </div>
                             </div>
-                                <!---------------------------------------------TIPO DE PRODUCTO---------------------------------------------------->
+                            <!---------------------------------------------TIPO DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('TPR_type') ? ' has-error' : '' }}">
                                 <label for="TPR_type" class="col-md-4 control-label">Tipo Producto:</label>
                                 <div class="col-md-6">
-                                <select name="TPR_type" id="" class="form-control">
-                                    <option value="">Seleccione Tipo de Producto...</option>
-                                    @foreach($typeProduct as $type)
-                                        <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
+                                    <select name="TPR_type" id="" class="form-control">
+                                        <option value="">Seleccione Tipo de Producto...</option>
+                                        @foreach($typeProduct as $type)
+                                            <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
                                         @endforeach
-                                </select>
+                                    </select>
                                 </div>
                             </div>
-                                <!---------------------------------------------PESO---------------------------------------------------->
+                            <!---------------------------------------------PESO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_weight') ? ' has-error' : '' }}">
                                 <label for="PDT_weight" class="col-md-4 control-label">Peso:</label>
 
@@ -107,7 +107,7 @@
                             </div>
 
 
-                                <!---------------------------------------------DESCRIPCION DE PRODUCTO---------------------------------------------------->
+                            <!---------------------------------------------DESCRIPCION DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_description') ? ' has-error' : '' }}">
                                 <label for="PDT_description" class="col-md-4 control-label">Descripción del Producto:</label>
 
@@ -134,12 +134,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-12">
-                        @if (Session::has('message'))
-                            <div class="alert alert-success">{{ Session::get('message') }}</div>
-                        @endif
-
-                    </div>
+                </div>
             </div>
         </div>
     </div>

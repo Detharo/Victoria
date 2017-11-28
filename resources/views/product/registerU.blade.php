@@ -39,6 +39,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
+                                <label for="rut" class="col-md-4 control-label">RUT</label>
+
+                                <div class="col-md-6">
+                                    <input id="rut" type="text" maxlength="12" class="form-control" name="rut" value="{{ old('rut') }}" required autofocus>
+
+                                    @if ($errors->has('rut'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('rut') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -80,12 +94,63 @@
                                     <button type="submit" class="btn btn-primary">
                                         Registrar
                                     </button>
-                                    <div class="pull-right">
-                                        <a href="{{route('home')}}"><div class="btn btn-info">HOME</div></a>
-                                    </div>
+
                                 </div>
                             </div>
                         </form>
+                        <div class="col-md-12">
+                            @if (Session::has('message'))
+                                <div class="alert alert-success">{{ Session::get('message') }}</div>
+                            @endif
+
+                        </div>
+                        <!----------LISTADO DE USUARIOS-------->
+                        <p ><h3 >Usuarios Registrados</h3></p>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr class="active">
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>RUT</th>
+                                <th>Email</th>
+                                <th>Tipo</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                        @foreach($user as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td class="col-lg-12">{{ $user->name }}</td>
+                                <td class="col-lg-12">{{ $user->rut }}</td>
+                                <td class="col-lg-12">{{ $user->email }}</td>
+                                @foreach($typeUser as $type)
+                                @if($user->TUS_id == $type->TUS_id)<td class="col-lg-12">{{ $type->TUS_description}}@endif</td>
+                                @endforeach
+
+
+                                <td class="col-md-2">
+                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$user->id])  }}">
+
+
+                                        <button type="submit" class="btn btn-info">Editar</button>
+                                    </form>
+                                </td>
+                                <td class="col-md-2">
+                                    <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $user->id]) }}" method="POST">
+
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                                    </form>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        </table>
                     </div>
                 </div>
             </div>

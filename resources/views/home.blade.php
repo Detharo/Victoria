@@ -19,8 +19,15 @@
                     </div></div>
 
                 <div class="panel-body">
+                    <div class="col-md-12">
+                        @if (Session::has('message'))
+                            <div class="alert alert-danger">{{ Session::get('message') }}</div>
+                        @endif
+
+                    </div>
                     @if (session('status'))
                         <div class="alert alert-success">
+
                             {{ session('status') }}
                         </div>
                     @endif
@@ -33,13 +40,14 @@
                 <div class="panel-body">
                     <div class="list-group">
 
-                        <a href="{{route('product.create')}}" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Ingresar Productos</a>
-                        <a href="{{ url('/productos') }}" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Listar Productos</a>
-                        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Ventas</a>
-                        <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Agregar Tipos de Productos</a>
-                        <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Agregar Bodegas</a>
-                        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Detalles de salidas</a>
-                        <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class="glyphicon glyphicon-chevron-right"></span> Agregar Usuarios</a>
+                        <a href="{{route('product.create')}}" class="list-group-item"><span class=""></span> Ingresar Productos</a>
+                        <a href="{{ url('/productos') }}" class="list-group-item"><span class=""></span> Listar Productos</a>
+                        @if (Auth::user()->TUS_id == 1)
+                            <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Tipos de Productos</a>
+                            <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Bodegas</a>
+                            <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
+                        @endif
+                        <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>
                     </div>
 
                 </div>

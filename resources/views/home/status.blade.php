@@ -34,6 +34,13 @@
                             </div>
 
                         </form>
+                        <div class="col-md-12">
+                            @if (Session::has('message'))
+                                <div class="alert alert-success">{{ Session::get('message') }}</div>
+                            @endif
+
+                        </div>
+                        <!------------LISTADOD E BODEGAS----------->
                         <p ><h3 >Bodegas Registradas</h3></p>
 
                         <div class="panel-body">
@@ -54,9 +61,23 @@
                                             <tr>
                                                 <td>{{ $prod->STS_id }}</td>
                                                 <td class="col-lg-12">{{ $prod->STS_description }}</td>
-                                                <td class="col-md-6">
-                                                    <a href="#" class="btn btn-xs">Editar</a>
-                                                    <a href="#" class="btn btn-xs">Eliminar</a>
+                                                <td class="col-md-2">
+                                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
+
+
+                                                        <button type="submit" class="btn btn-info">Editar</button>
+                                                    </form>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $prod->STS_id]) }}" method="POST">
+
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                                                    </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach

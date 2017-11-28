@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\StatusProduct;
 use Illuminate\Http\Request;
 use PHPUnit\Util\Type;
+use DB;
+use Auth;
 
 class StatusProductController extends Controller
 {
@@ -13,6 +15,10 @@ class StatusProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -26,8 +32,14 @@ class StatusProductController extends Controller
     public function create()
     {
         //
-        $StatusProduct = StatusProduct::all();
-        return view('home.status',compact('StatusProduct'));
+        if (Auth::user()->TUS_id == 1) {
+            $StatusProduct = StatusProduct::all();
+            return view('home.status', compact('StatusProduct'));
+        }
+        else
+        {
+            return redirect()->back()->with('message', 'Permiso Denegado');
+        }
 
     }
 
@@ -47,7 +59,7 @@ class StatusProductController extends Controller
         $StatusProduct->save();
         //redirección<
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Estado Registrado Exitosamente');
     }
 
     /**
@@ -90,8 +102,13 @@ class StatusProductController extends Controller
      * @param  \App\StatusProduct  $StatusProduct
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StatusProduct $StatusProduct)
+    public function destroy($id)
     {
-        //
+
+        DB::delete('delete from status_products where STS_id = ?',[$id]) ;
+
+        return redirect()->back()->with('message', 'Estado Eliminado Exitosamente');
+
+
     }
 }

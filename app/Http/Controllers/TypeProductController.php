@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\TypeProduct;
 use Illuminate\Http\Request;
 use PHPUnit\Util\Type;
+use DB;
+use Auth;
 
 class TypeProductController extends Controller
 {
@@ -13,6 +15,10 @@ class TypeProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -26,8 +32,15 @@ class TypeProductController extends Controller
     public function create()
     {
         //
-        $TypeProduct = TypeProduct::all();
-        return view('home.TypeProduct',compact('TypeProduct'));
+        if (Auth::user()->TUS_id == 1) {
+            $TypeProduct = TypeProduct::all();
+            return view('home.TypeProduct', compact('TypeProduct'));
+        }
+        else
+        {
+            return redirect()->back()->with('message', 'Permiso Denegado');
+        }
+
 
     }
 
@@ -47,7 +60,7 @@ class TypeProductController extends Controller
         $TypeProduct->save();
         //redirección<
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Tipo Registrado Exitosamente');
     }
 
     /**
@@ -90,8 +103,14 @@ class TypeProductController extends Controller
      * @param  \App\TypeProduct  $typeProduct
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeProduct $typeProduct)
+    public function destroy($id)
     {
-        //
+
+        DB::delete('delete from type_products where TPR_id = ?',[$id]) ;
+
+        return redirect()->back()->with('message', 'Tipo Eliminado Exitosamente');
+
+
     }
+
 }

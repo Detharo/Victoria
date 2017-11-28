@@ -34,6 +34,13 @@
                             </div>
 
                         </form>
+                        <div class="col-md-12">
+                            @if (Session::has('message'))
+                                <div class="alert alert-success">{{ Session::get('message') }}</div>
+                            @endif
+
+                        </div>
+                        <!----------TIPOS DE USUARIOS REGISTRADOS---------->
                         <p ><h3 >Tipos Registrados</h3></p>
 
                         <div class="panel-body">
@@ -52,15 +59,28 @@
 
                                         @foreach($TypeProduct as $prod)
                                             <tr>
-                                            <td>{{ $prod->TPR_id }}</td>
-                                            <td class="col-lg-12">{{ $prod->TPR_description }}</td>
-                                                <td class="col-md-6">
-                                                    <a href="#" class="btn btn-xs">Editar</a>
-                                                    <a href="#" class="btn btn-xs">Eliminar</a>
+                                                <td>{{ $prod->TPR_id }}</td>
+                                                <td class="col-lg-12">{{ $prod->TPR_description }}</td>
+                                                <td class="col-md-2">
+                                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
+
+
+                                                        <button type="submit" class="btn btn-info">Editar</button>
+                                                    </form>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <form action="{{ route('eliminaTPR',['TypeProduct'=> $prod->TPR_id]) }}" method="POST">
+
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                                                    </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach
-
 
                                         </tbody>
                                     </table>

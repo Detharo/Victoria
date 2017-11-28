@@ -26,8 +26,16 @@ Route::get('/productos','ProductController@list');
 Route::get('/rusuario','ProductController@rusuario');
 
 Route::resource('/typeproduct','TypeProductController');
-
+Route::name("eliminaTPR")->delete('delete/{TPR_id}','TypeProductController@destroy');
 Route::resource('/statusproduct','StatusProductController');
+
+Route::delete('delete/{STS_id}','StatusProductController@destroy');
+
+Route::get('/CHStatus','ProductController@CHStatus');
+
+Route::put('update/{PDT_code}','ProductController@updateSTS');
+
+
 
 
 

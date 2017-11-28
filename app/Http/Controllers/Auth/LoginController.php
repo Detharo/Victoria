@@ -36,4 +36,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    //public function redirectPath()
+    //{
+     //   if (auth()->user()->TUS_id == 1)
+      //  {
+       //     return '/rusuario';
+       // }
+
+       // return '/home';
+    //}
 }
