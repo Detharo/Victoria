@@ -24,7 +24,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                            <!--------------------------------- NOMBRE DE USUARIO ------------------------------------------->
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="col-md-4 control-label">Usuario</label>
 
@@ -38,7 +38,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                            <!--------------------------------- RUT ------------------------------------------->
                             <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                                 <label for="rut" class="col-md-4 control-label">RUT</label>
 
@@ -52,7 +52,7 @@
                                     @endif
                                 </div>
                             </div>
-
+                            <!--------------------------------- PASSWORD ------------------------------------------->
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
 
-
+                            <!--------------------------------- CONFIRMAR PASSWORD ------------------------------------------->
                             <div class="form-group">
                                 <label for="password-confirm" class="col-md-4 control-label">Confirmar Password</label>
 

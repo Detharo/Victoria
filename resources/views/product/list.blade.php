@@ -20,63 +20,63 @@
                             <table class="table table-stripped">
                                 <thead>
                                     <tr class="active">
+                                        <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Marca</th>
                                         <th>Precio</th>
-                                        <th>Cantidad</th>
+
                                         <th>Tipo de Producto</th>
                                         <th>Código de Producto</th>
-                                        <th>Descripción</th>
-                                        <th>Estado</th>
                                         <th>Operación</th>
+                                        <th></th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($quantityProduct as $quant)
+                                    @foreach($product as $prod)
 
-                                    <tr>@foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id)<td>{{ $prod->PDT_name}}@endif</td>
-                                        @endforeach
-                                        @foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id)<td>{{ $prod->PDT_brand }}@endif</td>
-                                        @endforeach
-                                        @foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id)<td>${{ $prod->PDT_price }}@endif</td>
-                                        @endforeach
-                                        @foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id)<td>{{ $quant->QTY_description}}@endif</td>
-                                        @endforeach
-                                        <td>
-                                            @foreach($typeProduct as $type)
-                                            @foreach($product as $prod)
-                                            @if($type->TPR_id == $prod->TPR_type && $quant->PDT_id == $prod->PDT_id){{$type->TPR_description}}@endif
-                                            @endforeach
-                                            @endforeach
+                                    <tr>
+                                        <td>{{ $prod->PDT_id }}</td>
+                                        <td>{{ $prod->PDT_name}}</td>
+                                        <td>{{ $prod->PDT_brand }}</td>
+                                        <td>${{ $prod->PDT_price }}</td>
+                                        <td>@foreach($typeProduct as $type)
+                                                @if($prod->TPR_type == $type->TPR_id)  {{$type->TPR_description}} @endif
+                                            @endforeach</td>
+                                        <td>{{ $prod->PDT_code }}</td>
+                                        <td >
+                                            <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
+
+
+                                                <button type="submit" class="btn btn-info">Editar</button>
+                                            </form>
                                         </td>
-                                        @foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id)<td>{{ $prod->PDT_code }}@endif</td>
-                                        @endforeach
-                                        @foreach($product as $prod)
-                                        @if($quant->PDT_id == $prod->PDT_id) <td>{{ $prod->PDT_description}}@endif</td>
-                                        @endforeach
-                                        <td>
-                                            @foreach($statusProduct as $type)
-                                            @foreach($product as $prod)
-                                            @if($type->STS_id == $quant->STS_id && $quant->PDT_id == $prod->PDT_id){{$type->STS_description}}@endif
-                                            @endforeach
-                                            @endforeach
+                                        <td >
+                                            <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $prod->STS_id]) }}" method="POST">
+
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                                            </form>
+
+                                        <td >
+                                            <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
+
+
+                                                <button type="submit" class="btn btn-success">Detalles</button>
+                                            </form>
                                         </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs">Editar</a>
-                                            <a href="#" class="btn btn-xs">Eliminar</a>
+
                                         </td>
-                                    </tr>
+
+
 
                                     @endforeach
                                 </tbody>
                             </table>
-
+                {{ $product->render() }}
                         </div>
                     </div>
                 </div>

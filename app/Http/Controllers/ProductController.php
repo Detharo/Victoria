@@ -93,7 +93,7 @@ class ProductController extends Controller
 
     public function list (Product $product)
     {
-        $product = Product::all();
+        $product = Product::paginate(10);
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
         $quantityProduct = QuantityProduct::all();
@@ -109,7 +109,7 @@ class ProductController extends Controller
         {
             $typeUser = TypeUser::all();
             $user = User::all();
-            return view('product.registerU', compact('typeUser', 'user'))->with('message', 'Producto Registrado Exitosamente');
+            return view('product.registerU', compact('typeUser', 'user'))->with('message', 'Usuario Registrado Exitosamente');
         }
         else
         {
