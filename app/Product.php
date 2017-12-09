@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
 
 class Product extends Model
 {
     //
+    use Eloquence;
     protected $table = 'products';
-
+    // default fields to search
+    protected $searchableColumns = ['title', 'body'];
     protected $fillable =[
         'PDT_name',
         'PDT_brand',
@@ -64,5 +67,12 @@ class Product extends Model
     public function resolveRouteBinding($value)
     {
         // TODO: Implement resolveRouteBinding() method.
+    }
+    public function scopeName($query, $PDT_name)
+    {
+        if(trim($PDT_name) !="")
+        {
+        $query->where('PDT_name',"LIKE", "%$PDT_name%");
+        }
     }
 }

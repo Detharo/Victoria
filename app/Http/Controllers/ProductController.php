@@ -23,9 +23,10 @@ class ProductController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index()
+    public function index(Request $request)
     {
         //
+
     }
 
     /**
@@ -91,9 +92,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function list (Product $product)
+    public function list (Product $product,Request $request)
     {
-        $product = Product::paginate(10);
+
+        //$product = Product::paginate(10);
+        $product = Product::name($request->get('PDT_name'))->orderBy('PDT_id','DESC')->paginate();
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
         $quantityProduct = QuantityProduct::all();

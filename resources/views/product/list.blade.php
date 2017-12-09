@@ -11,9 +11,16 @@
 
                     <div class="pull-right">
                         <a href="{{route('product.create')}}"><div class="btn btn-primary">Agregar Productos</div></a>
-                    </div>
-                </div>
 
+                    </div>
+
+                </div>
+                    {{ Form::open(['url'=> '/productos','method'=> 'GET','class'=>'navbar-form navbar-left','role'=>'search']) }}
+                    <div class="form-group">
+                        {{ Form::text('PDT_name',null,['class'=>'form-control','placeholder'=>'Nombre Producto']) }}
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                {{Form::close()}}
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
