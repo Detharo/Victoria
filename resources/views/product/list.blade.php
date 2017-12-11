@@ -13,11 +13,24 @@
                         <a href="{{route('product.create')}}"><div class="btn btn-primary">Agregar Productos</div></a>
 
                     </div>
+                    <div class="col-md-12">
+                        @if (Session::has('message'))
+                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                        @endif
 
+                    </div>
                 </div>
-                    {{ Form::open(['url'=> '/productos','method'=> 'GET','class'=>'navbar-form navbar-left','role'=>'search']) }}
+                    {{ Form::model(Request::all(),['url'=> '/productos','method'=> 'GET','class'=>'navbar-form navbar-left','role'=>'search']) }}
                     <div class="form-group">
                         {{ Form::text('PDT_name',null,['class'=>'form-control','placeholder'=>'Nombre Producto']) }}
+                        {{ Form::text('PDT_brand',null,['class'=>'form-control','placeholder'=>'Marca Producto']) }}
+                        <select name="TPR_type" id="" class="form-control">
+                            <option value="">Seleccione Tipo de Producto...</option>
+                            @foreach($typeProduct as $type)
+                                <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
+                            @endforeach
+                        </select>
+                        {{ Form::text('PDT_code',null,['class'=>'form-control','placeholder'=>'Código Producto']) }}
                     </div>
                     <button type="submit" class="btn btn-default">Buscar</button>
                 {{Form::close()}}
@@ -52,14 +65,14 @@
                                             @endforeach</td>
                                         <td>{{ $prod->PDT_code }}</td>
                                         <td >
-                                            <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
+                                           <!-- <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}"> -->
 
 
-                                                <button type="submit" class="btn btn-info">Editar</button>
-                                            </form>
+                                                <button type="submit" class="btn btn-info" value="{{ $prod->PDT_id }}" data-toggle="modal" data-target="#myModal">Editar</button>
+                                         <!--   </form> -->
                                         </td>
                                         <td >
-                                            <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $prod->STS_id]) }}" method="POST">
+                                            <form action="{{ route('product.destroy',['Product'=> $prod->PDT_id]) }}" method="POST">
 
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
@@ -69,21 +82,35 @@
                                             </form>
 
                                         <td >
-                                            <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
-
-
+                                            <form action="{{ route('Qlist',['Product'=> $prod->PDT_id])  }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('POST') }}
                                                 <button type="submit" class="btn btn-success">Detalles</button>
                                             </form>
                                         </td>
+                                        <!-- <td >
+                                            <a href="{{ url('product.quantity' )}}" ><span class=""></span>
+
+                                                <button  class="btn btn-success">Detalles</button>
+                                            </a>
+                                        </td>
+                                        -->
 
                                         </td>
+
+
 
 
 
                                     @endforeach
                                 </tbody>
                             </table>
-                {{ $product->render() }}
+                {{ $product->appends(Request::all())->render() }}
+
+
+
+
+
                         </div>
                     </div>
                 </div>

@@ -96,7 +96,7 @@ class ProductController extends Controller
     {
 
         //$product = Product::paginate(10);
-        $product = Product::name($request->get('PDT_name'))->orderBy('PDT_id','DESC')->paginate();
+        $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
         $quantityProduct = QuantityProduct::all();
@@ -126,6 +126,19 @@ class ProductController extends Controller
         $statusProduct = StatusProduct::all();
         return view('product.CHStatus',compact('statusProduct','product'));
     }
+
+
+    public function BuscarStock(Request $request)
+    {
+
+        $product = Product::code($request->get('PDT_code'))->paginate(10);;
+        //dd($product);
+        $statusProduct = StatusProduct::all();
+        $typeProduct = TypeProduct::all();
+
+
+        return view('product.stock',compact('statusProduct','product','typeProduct'));
+    }
     public function edit(Product $product)
     {
         //
@@ -140,9 +153,9 @@ class ProductController extends Controller
      */
     public function updateSTS(Request $request, Product $product)
     {
-        $product->update($request->only('STS_id','descrption','url') );
+        $product->update($request->only('STS_id','description','url') );
 
-        return redirect()->route('post_path',['post' => $post->id]);
+        return redirect()->route('post_path',['post' => $product->id]);
     }
     public function update(Request $request, Product $product)
     {
@@ -155,8 +168,18 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
         //
+
+        DB::delete('delete from products where PDT_id = ?',[$id]) ;
+
+        return redirect()->back()->with('message', 'Producto Eliminado Exitosamente');
+    }
+    public function editItem(Request $req) {
+        $data = Data::find ( $req->id );
+        $data->name = $req->name;
+        $data->save ();
+        return response ()->json ( $data );
     }
 }

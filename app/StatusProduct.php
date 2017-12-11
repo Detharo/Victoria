@@ -9,7 +9,7 @@ class StatusProduct extends Model
     //
     protected $table = 'status_products';
 
-    protected $fillable =[
+    protected $fillable = [
         'STS_description'
     ];
 
@@ -19,3 +19,4 @@ class StatusProduct extends Model
         $this->belongsTo('App/QuantityProduct');
     }
 }
+

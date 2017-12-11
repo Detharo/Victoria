@@ -3,7 +3,7 @@
 @section('content')
     <!---<div class="row">-->
 
-   <!-- </div>-->
+    <!-- </div>-->
 
     <div class="row">
         <div class="col-xs-4 col-md-2">
@@ -45,6 +45,7 @@
                         @if (Auth::user()->TUS_id == 1)
                             <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Tipos de Productos</a>
                             <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Bodegas</a>
+                            <a href="{{ url('/stock' )}}" class="list-group-item"><span class=""></span> Agregar Stock</a>
                             <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
                         @endif
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>

@@ -1,29 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Registro de Tipos de Productos</div>
+                <div class="panel panel-default clearfix">
+
+                    <div class="panel-heading ">Registro de Producto</div>
+
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('statusproduct.store') }}">
-                            {{ csrf_field() }}
+                        <form class="form-horizontal" method="POST" action="{{ route('stock.store') }}">
+                        {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('STS_description') ? ' has-error' : '' }}">
-                                <label for="STS_description" class="col-md-4 control-label">Nueva Bodega</label>
+                        <!---------------------------------------------CÓDIGO PRODUCTO---------------------------------------------------->
+                            <div class="form-group{{ $errors->has('PDT_code') ? ' has-error' : '' }}">
+                                <label for="PDT_code" class="col-md-4 control-label">Código de Producto:</label>
 
                                 <div class="col-md-6">
-                                    <input id="STS_description" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" placeholder="Bodega X" class="form-control" name="STS_description" value="{{ old('STS_description') }}" required autofocus>
+                                    <input id="PDT_code" type="text" class="form-control" name="PDT_code" value="{{ old('PDT_code') }}" required autofocus>
 
-                                    @if ($errors->has('STS_description'))
+                                    @if ($errors->has('PDT_code'))
                                         <span class="help-block">
-                                        <strong>{{ $errors->first('STS_description') }}</strong>
+                                        <strong>{{ $errors->first('PDT_code') }}</strong>
                                     </span>
                                     @endif
                                 </div>
                             </div>
+                            <!---------------------------------------------CANTIDAD---------------------------------------------------->
+                            <div class="form-group{{ $errors->has('QTY_description') ? ' has-error' : '' }}">
+                                <label for="name" class="col-md-4 control-label">Cantidad:</label>
+
+                                <div class="col-md-6">
+                                    <input id="QTY_description" type="number" class="form-control" name="QTY_description" value="{{ old('QTY_description') }}" required autofocus>
+
+                                    @if ($errors->has('QTY_description'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('QTY_description') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <!---------------------------------------------ESTADO/BODEGA---------------------------------------------------->
+                            <div class="form-group{{ $errors->has('STS_id') ? ' has-error' : '' }}">
+                                <label for="STS_id" class="col-md-4 control-label">Estado/Bodega:</label>
+                                <div class="col-md-6">
+                                    <select name="STS_id" id="" class="form-control">
+                                        <option value="">Seleccione Estado/Bodega...</option>
+                                        @foreach($statusProduct as $type)
+                                            <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
+                                        @endforeach
+                                        <option value="Merma">MERMA</option>
+                                        <option value="Vendido">VENDIDO</option>
+                                        <option value="Oferta">OFERTA</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
@@ -32,68 +68,16 @@
                                     </button>
                                 </div>
                             </div>
-
                         </form>
-                        <div class="col-md-12">
-                            @if (Session::has('message'))
-                                <div class="alert alert-success">{{ Session::get('message') }}</div>
-                            @endif
-
-                        </div>
-                        <!------------LISTADOD E BODEGAS----------->
-                        <p ><h3 >Bodegas Registradas</h3></p>
-
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr class="active">
-                                            <th>ID</th>
-                                            <th>Descripción</th>
-
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        @foreach($StatusProduct as $prod)
-                                            <tr>
-                                                <td>{{ $prod->STS_id }}</td>
-                                                <td class="col-lg-12">{{ $prod->STS_description }}</td>
-                                                <td class="col-md-2">
-                                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
-
-
-                                                        <button type="submit" class="btn btn-info">Editar</button>
-                                                    </form>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $prod->STS_id]) }}" method="POST">
-
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-
-                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-
-                                                    </form>
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @if (Session::has('message'))
+                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                        @endif
 
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
 
 @endsection

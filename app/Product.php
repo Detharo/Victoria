@@ -73,6 +73,41 @@ class Product extends Model
         if(trim($PDT_name) !="")
         {
         $query->where('PDT_name',"LIKE", "%$PDT_name%");
+
         }
     }
+    public function scopeCode($query, $PDT_code)
+    {
+        if(trim($PDT_code) !="")
+        {
+            $query->where('PDT_code',$PDT_code);
+
+        }
+    }
+
+    public function scopeId($query, $PDT_id)
+    {
+
+        $query->where('PDT_id', $PDT_id);
+
+
+    }
+
+    public function scopeBrand($query, $PDT_brand)
+    {
+        if(trim($PDT_brand) !="")
+        {
+            $query->where('PDT_brand',"LIKE", "%$PDT_brand%");
+
+        }
+    }
+    public function scopeType($query, $TPR_type)
+    {
+        if(trim($TPR_type) !="")
+        {
+            $query->where('TPR_type',$TPR_type);
+
+        }
+    }
+
 }
