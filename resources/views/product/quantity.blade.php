@@ -9,10 +9,7 @@
 
 
 
-                        <div class="pull-right">
-                            <a href="{{url('/productos')}}"><div class="btn btn-primary">Atrás</div></a>
 
-                        </div>
                         <div class="col-md-12">
                             @if (Session::has('message'))
                                 <div class="alert alert-success">{{ Session::get('message') }}</div>
@@ -27,13 +24,7 @@
                                 <table class="table table-stripped">
                                     <thead>
                                     <tr class="active">
-                                        <th>ID</th>
                                         <th>Nombre</th>
-                                        <th>Marca</th>
-                                        <th>Precio</th>
-
-                                        <th>Tipo de Producto</th>
-                                        <th>Código de Producto</th>
                                         <th>Cantidad</th>
                                         <th>Estado/Bodega</th>
 
@@ -42,20 +33,32 @@
                                     </tr>
                                     </thead>
 
-                                    {{ $result=DB::select( DB::raw('SELECT producto.PDT_name,SUM(stock.QTY_description), bodega.STS_description FROM quantity_products stock JOIN status_products bodega ON bodega.STS_id=stock.STS_id JOIN products producto ON producto.PDT_id=stock.PDT_id WHERE producto.PDT_id='.$PDT_id.' GROUP BY bodega.STS_description;')) }}
-                                    {{ dd('a2') }}
-                                    {{ dd($data->get('PDT_name')) }}
-                                    <tbody>@foreach($data as $prod)
+                                    <tbody>
 
-
+                                        @foreach($quantityProduct as $prod)
 
 
                                         <tr>
-                                            <td></td>
-                                            <td>{{ $prod->get('PDT_name')}}</td>
-                                            <td></td>
-                                            <td></td>
+                                            @if($id == $prod->PDT_id) <td>
+                                                @foreach($product as $type)
+                                                    @if($id == $type->PDT_id)  {{$type->PDT_name}} @endif
+                                                @endforeach
 
+                                            </td>@endif
+                                            @if($id == $prod->PDT_id) <td>
+                                                {{$prod->QTY_description}}
+
+                                            </td>@endif
+                                            @if($id == $prod->PDT_id) <td>
+
+                                                @foreach($statusProduct as $type)
+                                                    @if($prod->STS_id == $type->STS_id)  {{$type->STS_description}} @endif
+                                                @endforeach
+
+                                            </td>@endif
+
+
+                                        </tr>
 
                                         @endforeach
 
@@ -68,8 +71,12 @@
 
 
                             </div>
+                        </div><div class="pull-left">
+                            <a href="{{url('/productos')}}"><div class="btn btn-success">Atrás</div></a>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

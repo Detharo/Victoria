@@ -10,6 +10,7 @@ use App\StatusProduct;
 use App\Product;
 use App\TypeProduct;
 use App\WeightProduct;
+use DB;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,7 @@ class QuantityProductController extends Controller
         //
         $prod = Product::all();
         $qty = new QuantityProduct();
-        $qty->QTY_description = $request->QTY_description;
+        //$qty->QTY_description = $request->QTY_description;
 
 
         //buscador de coincidencias entre el codigo del producto y su ID
@@ -72,13 +73,21 @@ class QuantityProductController extends Controller
                 $qty->PDT_id = $pro->PDT_id;
             }
         }
-
-
-        //$qty->PDT_id = $request-> PDT_id;
         $qty->STS_id = $request-> STS_id;
 
-        $qty->save();
-        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '.$qty->PDT_id.' AND STS_id = '.$qty->STS_id);
+
+
+        $quantity = (int) $quantity[0]->resu;
+        $quantity = (int) $request->QTY_description+$quantity ;
+
+        $qty->QTY_description = $quantity;
+
+
+        //$qty->save();
+        $update = $this->update($qty->PDT_id,$quantity,$qty->STS_id);
+        return $update;
+        //return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
 
 
     }
@@ -108,15 +117,21 @@ class QuantityProductController extends Controller
     public function Qlist($id)
     {
       // dd([$id]);
-        $product = Product::id($id);
+        $product = Product::all();
         $typeProduct = TypeProduct::all();
         $statusProduct = StatusProduct::all();
         $quantityProduct = QuantityProduct::all();
         $weightProduct = WeightProduct::all();
-        $PDT_id = $id;
-       // $data = QuantityProduct::select($id);
+       // $produ = DB::select('SELECT * FROM quantity_products WHERE PDT_id= ',$id);
+       // $id = DB::select('SELECT producto.PDT_name,SUM(stock.QTY_description) as resu, bodega.STS_description FROM quantity_products stock JOIN status_products bodega ON bodega.STS_id=stock.STS_id JOIN products producto ON producto.PDT_id=stock.PDT_id WHERE producto.PDT_id = '.$id.' GROUP BY bodega.STS_description;');
+
+
+
+        //dd($id[0]->resu);
+
+    // $data = QuantityProduct::select($id);
         //dd($data);
-        return view('product.quantity',compact('product','typeProduct','PDT_id','statusProduct','quantityProduct','weightProduct'));
+        return view('product.quantity',compact('product','typeProduct','id','statusProduct','quantityProduct','weightProduct'));
 
     }
 
@@ -127,9 +142,12 @@ class QuantityProductController extends Controller
      * @param  \App\QuantityProduct  $quantityProduct
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuantityProduct $quantityProduct)
+    public function update($id,$quantity,$sts)
     {
-        //
+        //UPDATE persondata SET edad=edad*2, edad=edad+1;
+        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id= '.$sts );
+
+        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
     }
 
     /**

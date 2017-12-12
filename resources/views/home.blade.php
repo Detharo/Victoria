@@ -49,9 +49,13 @@
                             <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
                         @endif
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>
+                        <h3>Módulo Bodegas</h3>
+                        <a href="{{url('product.storage1')}}" class="list-group-item"><span class=""></span> Bodega 1</a>
+                        <a href="{{url('product.storage2')}}" class="list-group-item"><span class=""></span> Bodega 2</a>
                     </div>
-
                 </div>
+
+
             </div>
         </div>
     </div>

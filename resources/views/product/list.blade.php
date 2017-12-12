@@ -82,7 +82,7 @@
                                             </form>
 
                                         <td >
-                                            <form action="{{ route('Qlist',['Product'=> $prod->PDT_id])  }}" method="POST">
+                                            <form action="{{ url('/product.quantity',['Product'=> $prod->PDT_id])  }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('POST') }}
                                                 <button type="submit" class="btn btn-success">Detalles</button>
@@ -113,7 +113,14 @@
 
                         </div>
                     </div>
+
                 </div>
+
+                <a href="{{ url('/home' )}}" ><span class=""></span>
+
+                    <button  class="btn btn-success">Atrás</button>
+                </a>
+
             </div>
         </div>
     </div>

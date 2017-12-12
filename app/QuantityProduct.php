@@ -51,11 +51,6 @@ class QuantityProduct extends Model
 
 
     }
-    public static function select( $id)
-    {
-//dd($id);
-         DB::select('SELECT producto.PDT_name,SUM(stock.QTY_description), bodega.STS_description FROM quantity_products stock JOIN status_products bodega ON bodega.STS_id=stock.STS_id JOIN products producto ON producto.PDT_id=stock.PDT_id WHERE producto.PDT_id='.$id.' GROUP BY bodega.STS_description;');
 
-    }
 }
 

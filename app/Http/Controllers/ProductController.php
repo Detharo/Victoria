@@ -120,11 +120,13 @@ class ProductController extends Controller
         }
     }
 
-    public function CHstatus()
+    public function CHstatus(Product $product,Request $request)
     {
-        $product = Product::all();
+        $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
         $statusProduct = StatusProduct::all();
-        return view('product.CHStatus',compact('statusProduct','product'));
+        $typeProduct = TypeProduct::all();
+        $quantityProduct = QuantityProduct::all();
+        return view('product.CHStatus',compact('typeProduct','statusProduct', 'product','quantityProduct'));
     }
 
 
@@ -168,6 +170,16 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
+    public function storage1()
+    {
+
+        return view('storage.CHstorage1');
+    }
+    public function storage2()
+    {
+
+        return view('storage.CHstorage2');
+    }
     public function destroy($id)
     {
         //

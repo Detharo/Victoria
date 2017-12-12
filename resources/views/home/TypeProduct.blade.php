@@ -88,9 +88,13 @@
                                 </div>
                             </div>
                         </div>
+                        <a href="{{ url('/home' )}}" ><span class=""></span>
 
+                            <button  class="btn btn-success">Atrás</button>
+                        </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

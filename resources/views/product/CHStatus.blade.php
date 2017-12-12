@@ -2,68 +2,78 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Cambio de Estados de Productos</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">Mis Productos</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="PUT" action="{{ route('register') }}">
-                            {{ csrf_field() }}
+                        {{ Form::model(Request::all(),['url'=> '/CHStatus','method'=> 'GET','class'=>'navbar-form navbar-left','role'=>'search']) }}
+                        <div class="form-group">
+                            {{ Form::text('PDT_name',null,['class'=>'form-control','placeholder'=>'Nombre Producto']) }}
+                            {{ Form::text('PDT_brand',null,['class'=>'form-control','placeholder'=>'Marca Producto']) }}
+                            <select name="TPR_type" id="" class="form-control">
+                                <option value="">Seleccione Tipo de Producto...</option>
+                                @foreach($typeProduct as $type)
+                                    <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
+                                @endforeach
+                            </select>
+                            {{ Form::text('PDT_code',null,['class'=>'form-control','placeholder'=>'Código Producto']) }}
+                        </div>
+                        <button type="submit" class="btn btn-default">Buscar</button>
+                        {{Form::close()}}
 
-                            <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }}">
-                                <label for="code" class="col-md-4 control-label">Producto</label>
+                        <table class="table table-stripped">
+                            <thead>
+                            <tr class="active">
+                                <th>Cantidad</th>
+                                <th>Bodega/Estado Actual</th>
+                                <th>Bodega Destino</th>
+                                <th>Operación</th>
 
-                                <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" placeholder="Ingrese Código del Producto" name="name" value="{{ old('code') }}" required autofocus>
+                                <th></th>
 
-                                    @if ($errors->has('code'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('code') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            </tr>
+                            </thead>
 
-                                <!---------------------------------------------TIPO DE ESTADO ACTUAL---------------------------------------------------->
-                                <div class="form-group{{ $errors->has('status_product') ? ' has-error' : '' }}">
-                                    <label for="status_product" class="col-md-4 control-label">Estado Actual:</label>
-                                    <div class="col-md-6">
-                                        <select name="status_product" id="" class="form-control">
-                                            <option value="">Seleccione Estado...</option>
-                                            @foreach($statusProduct as $stat)
-                                                <option value="{{ $stat->STS_id }}"> {{$stat->STS_description}} </option>
+                            <tbody>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Bodega/Estado Actual</th>
+                                <th>
+
+                                        <select name="STS_id" id="" class="form-control">
+                                            <option value="">Seleccione Estado/Bodega...</option>
+                                            @foreach($statusProduct as $type)
+                                                <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
                                             @endforeach
+                                            <option value="Merma">MERMA</option>
+                                            <option value="Vendido">VENDIDO</option>
+                                            <option value="Oferta">OFERTA</option>
                                         </select>
+
+                                </th>
+                                <th>
+                                    <div class="col-md-6 ">
+                                        <button type="submit" class="btn btn-primary">
+                                            Cambiar
+                                        </button>
                                     </div>
-                                </div>
+                                </th>
 
-                                <!---------------------------------------------TIPO DE ESTADO NUEVO---------------------------------------------------->
-                                <div class="form-group{{ $errors->has('status_product') ? ' has-error' : '' }}">
-                                    <label for="status_product" class="col-md-4 control-label">Estado Nuevo:</label>
-                                    <div class="col-md-6">
-                                        <select name="status_product" id="" class="form-control">
-                                            <option value="">Seleccione Estado...</option>
-                                            @foreach($statusProduct as $stat)
-                                                <option value="{{ $stat->STS_id }}"> {{$stat->STS_description}} </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                <th></th>
+
+                            </tr>
 
 
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Cambiar
-                                    </button>
-
-                                </div>
-                            </div>
-                        </form>
+                            </tbody>
+                        </table>
 
 
-                    </div>
+                    </div><a href="{{ url('/home' )}}" ><span class=""></span>
+
+                    <button  class="btn btn-success">Atrás</button>
+                </a>
                 </div>
             </div>
         </div>
