@@ -7,7 +7,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default clearfix">
 
-                    <div class="panel-heading ">Registro de Producto</div>
+                    <div class="panel-heading ">Agregar Stock</div>
 
 
                     <div class="panel-body">
@@ -51,9 +51,8 @@
                                         @foreach($statusProduct as $type)
                                             <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
                                         @endforeach
-                                        <option value="Merma">MERMA</option>
-                                        <option value="Vendido">VENDIDO</option>
-                                        <option value="Oferta">OFERTA</option>
+                                        <option value="MERMA">MERMA</option>
+                                        <option value="VENDIDO">VENDIDO</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,6 +73,9 @@
                         @if (Session::has('message'))
                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                         @endif
+                            @if (Session::has('message2'))
+                                <div class="alert alert-danger">{{ Session::get('message2') }}</div>
+                            @endif
                             <a href="{{ url('/home' )}}" ><span class=""></span>
 
                                 <button  class="btn btn-success">Atrás</button>

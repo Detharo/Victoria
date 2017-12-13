@@ -65,11 +65,8 @@
                                             @endforeach</td>
                                         <td>{{ $prod->PDT_code }}</td>
                                         <td >
-                                           <!-- <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}"> -->
 
-
-                                                <button type="submit" class="btn btn-info" value="{{ $prod->PDT_id }}" data-toggle="modal" data-target="#myModal">Editar</button>
-                                         <!--   </form> -->
+                                            <a href="{{ route('product.edit',[$prod->PDT_id]) }}"><button type="submit" class="btn btn-info" >Editar</button></a>
                                         </td>
                                         <td >
                                             <form action="{{ route('product.destroy',['Product'=> $prod->PDT_id]) }}" method="POST">

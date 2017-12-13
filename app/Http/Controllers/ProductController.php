@@ -122,11 +122,28 @@ class ProductController extends Controller
 
     public function CHstatus(Product $product,Request $request)
     {
-        $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
-        $statusProduct = StatusProduct::all();
-        $typeProduct = TypeProduct::all();
-        $quantityProduct = QuantityProduct::all();
-        return view('product.CHStatus',compact('typeProduct','statusProduct', 'product','quantityProduct'));
+
+        try {
+            $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
+
+            $id = $product[0]->PDT_id;
+            $validator = 1;
+            $prodName = $product[0]->PDT_name;
+            $statusProduct = StatusProduct::all();
+            $typeProduct = TypeProduct::all();
+            $quantityProduct = QuantityProduct::all();
+            return view('product.CHStatus', compact('typeProduct', 'statusProduct','validator' , 'prodName', 'id', 'product', 'quantityProduct'));
+        }
+        catch (\Exception $e)
+
+        {
+            $validator = 0;
+            $statusProduct = StatusProduct::all();
+            $typeProduct = TypeProduct::all();
+            $quantityProduct = QuantityProduct::all();
+            $prodName= "";
+            return view('product.CHStatus', compact('prodName','statusProduct','validator','typeProduct','quantityProduct'))->with('message', 'Producto no encontrado');
+        }
     }
 
 
@@ -144,6 +161,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        dd('a');
+        $prod = Product::FindOrFail($product);
+        return view('product.edit',compact('prod'));
     }
 
     /**
@@ -153,12 +173,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function updateSTS(Request $request, Product $product)
-    {
-        $product->update($request->only('STS_id','description','url') );
 
-        return redirect()->route('post_path',['post' => $product->id]);
-    }
     public function update(Request $request, Product $product)
     {
         //
@@ -188,10 +203,5 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Producto Eliminado Exitosamente');
     }
-    public function editItem(Request $req) {
-        $data = Data::find ( $req->id );
-        $data->name = $req->name;
-        $data->save ();
-        return response ()->json ( $data );
-    }
+
 }

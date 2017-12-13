@@ -62,32 +62,140 @@ class QuantityProductController extends Controller
         //
         $prod = Product::all();
         $qty = new QuantityProduct();
+        $sold = new SoldProduct();
+        $offer= new OfferProduct();
+        $dcs = new DecreaseProduct();
         //$qty->QTY_description = $request->QTY_description;
+        IF($request->STS_id == 'MERMA')
+        {
+            foreach ($prod as $pro)
+            {
+
+                if($pro->PDT_code == $request->PDT_code)
+                {
+                    $producto = $pro->PDT_id;
+
+                }
+
+            }
+
+            if($producto == "" || $producto == null )
+            {
+                return redirect()->back()->with('message2', 'Producto No Existe');
+            }
+            else
+            {
+                $dcs->PDT_id = $producto;//INSERCIÓN DEL ID
+            }
+
+            $quantity=  DB::select('SELECT CAST( DCS_quantity AS integer) as resu from decrease_products WHERE PDT_id = '. $dcs->PDT_id);
+
+            //verifico si el producto es nuevo
+            if($quantity == "" || $quantity == null)
+            {
+                $dcs->DCS_quantity = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
+                $dcs->save();
+
+                return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+            }
+            else{
+                $quantity = (int) $quantity[0]->resu;
+                $quantity = (int) $request->QTY_description+$quantity ;
+                                //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE
+                $update = $this->updateSLD($dcs->PDT_id,$quantity);
+                return $update;
+            }
+
+        }
+
+
+
+
+        IF($request->STS_id == 'VENDIDO')
+        {
+            foreach ($prod as $pro)
+            {
+
+                if($pro->PDT_code == $request->PDT_code)
+                {
+                    $producto = $pro->PDT_id;
+
+                }
+
+            }
+
+            if($producto == "" || $producto == null )
+            {
+                return redirect()->back()->with('message2', 'Producto No Existe');
+            }
+            else
+            {
+                $sold->PDT_id = $producto;//INSERCIÓN DEL ID
+            }
+
+            $quantity=  DB::select('SELECT CAST( SLD_quantity AS integer) as resu from sold_products WHERE PDT_id = '. $sold->PDT_id);
+
+            //verifico si el producto es nuevo
+            if($quantity == "" || $quantity == null)
+            {
+                $sold->SLD_quantity = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
+                $sold->save();
+
+                return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+            }
+            else{
+                $quantity = (int) $quantity[0]->resu;
+                $quantity = (int) $request->QTY_description+$quantity ;
+                                  //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE
+                $update = $this->updateSLD($producto,$quantity);
+                return $update;
+            }
+
+        }
 
 
         //buscador de coincidencias entre el codigo del producto y su ID
         foreach ($prod as $pro)
         {
+
             if($pro->PDT_code == $request->PDT_code)
             {
-                $qty->PDT_id = $pro->PDT_id;
+                $producto = $pro->PDT_id;
+
             }
+
         }
-        $qty->STS_id = $request-> STS_id;
+
+        if($producto == "" || $producto == null )
+        {
+            return redirect()->back()->with('message2', 'Producto No Existe');
+        }
+        else
+        {
+            $qty->PDT_id = $producto;//INSERCIÓN DEL ID
+        }
+
+        $qty->STS_id = $request->STS_id;
 
         $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '.$qty->PDT_id.' AND STS_id = '.$qty->STS_id);
 
+        //verifico si el producto es nuevo
+        if($quantity == "" || $quantity == null)
+        {
+            $qty->QTY_description = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
+            $qty->save();
+            return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        }
+        else{
+            $quantity = (int) $quantity[0]->resu;
+            $quantity = (int) $request->QTY_description+$quantity ;
+            $qty->QTY_description = $quantity;                   //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE
+            $update = $this->update($qty->PDT_id,$quantity,$qty->STS_id);
+            return $update;
+        }
 
-        $quantity = (int) $quantity[0]->resu;
-        $quantity = (int) $request->QTY_description+$quantity ;
 
-        $qty->QTY_description = $quantity;
-
-
-        //$qty->save();
-        $update = $this->update($qty->PDT_id,$quantity,$qty->STS_id);
-        return $update;
-        //return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        //
 
 
     }
@@ -144,8 +252,62 @@ class QuantityProductController extends Controller
      */
     public function update($id,$quantity,$sts)
     {
+
+         //UPDATE persondata SET edad=edad*2, edad=edad+1;
+            DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id= '.$sts );
+
+
+
+        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\QuantityProduct  $quantityProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDCS($id,$quantity)
+    {
+
+        //UPDATE persondata SET edad=edad*2, edad=edad+1;
+        DB::update('UPDATE decrease_products SET DCS_quantity ='.$quantity.' WHERE PDT_id = '.$id);
+
+
+
+        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\QuantityProduct  $quantityProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSLD($id,$quantity)
+    {
+
+        //UPDATE persondata SET edad=edad*2, edad=edad+1;
+        DB::update('UPDATE sold_products SET SLD_quantity ='.$quantity.' WHERE PDT_id = '.$id);
+
+
+
+        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\QuantityProduct  $quantityProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOFF($id,$quantity,$sts)
+    {
+
         //UPDATE persondata SET edad=edad*2, edad=edad+1;
         DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id= '.$sts );
+
+
 
         return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
     }

@@ -131,7 +131,7 @@
 
 
                                 <td class="col-md-2">
-                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$user->id])  }}">
+                                    <form  method="POST" action="{{ route('product.edit', $user)  }}">
 
 
                                         <button type="submit" class="btn btn-info">Editar</button>

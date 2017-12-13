@@ -12,6 +12,7 @@
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('product.store') }}">
+                            {{Form::open(['route' => 'product.update','method' => 'PUT'])}}
                         {{ csrf_field() }}
 
                         <!---------------------------------------------CÓDIGO PRODUCTO---------------------------------------------------->
@@ -96,16 +97,6 @@
                                     @endif
                                 </div>
                                 <!---------------------------------------------TIPO DE PESO---------------------------------------------------->
-                                <div class="col-md-4">
-                                    <select name="WGT_type" id="" class="form-control">
-                                        <option value="">Seleccione Tipo de Peso...</option>
-                                        @foreach($typeWeight as $type)
-                                            <option value="{{ $type->WGT_id }}"> {{$type->WGT_description}} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
 
                             <!---------------------------------------------DESCRIPCION DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_description') ? ' has-error' : '' }}">
@@ -128,15 +119,24 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Registrar
+                                        Editar
                                     </button>
                                 </div>
                             </div>
+                            {{ Form::close() }}
                         </form>
+                    </div>
+                    <div class="col-md-12">
+                        @if (Session::has('message'))
+                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                        @endif
+                        <a href="{{ url('/home' )}}" ><span class=""></span>
+
+                            <button  class="btn btn-success">Atrás</button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 @endsection

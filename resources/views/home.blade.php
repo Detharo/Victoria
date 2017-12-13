@@ -39,17 +39,20 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="list-group">
-
+                        <h3>Módulo Productos</h3>
                         <a href="{{route('product.create')}}" class="list-group-item"><span class=""></span> Ingresar Productos</a>
                         <a href="{{ url('/productos') }}" class="list-group-item"><span class=""></span> Listar Productos</a>
-                        @if (Auth::user()->TUS_id == 1)
+                    @if (Auth::user()->TUS_id == 1)
                             <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Tipos de Productos</a>
-                            <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Bodegas</a>
                             <a href="{{ url('/stock' )}}" class="list-group-item"><span class=""></span> Agregar Stock</a>
-                            <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
-                        @endif
+                    @endif
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>
+                    @if (Auth::user()->TUS_id == 1)
+                        <h3>Módulo Usuarios</h3>
+                        <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
+                    @endif
                         <h3>Módulo Bodegas</h3>
+                        <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Bodegas</a>
                         <a href="{{url('product.storage1')}}" class="list-group-item"><span class=""></span> Bodega 1</a>
                         <a href="{{url('product.storage2')}}" class="list-group-item"><span class=""></span> Bodega 2</a>
                     </div>
