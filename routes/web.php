@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/stock/listado', 'ProductController@obtener_datos_stock');
+Route::post('/producto/editar','ProductController@editar_producto')->name('editar_producto');
+Route::any('/producto/eliminar','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
 Route::get('/', function () {
     return view('welcome');
 });

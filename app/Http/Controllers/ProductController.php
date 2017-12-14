@@ -11,6 +11,9 @@ use App\User;
 use App\WeightProduct;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class ProductController extends Controller
 {
@@ -202,6 +205,47 @@ class ProductController extends Controller
         DB::delete('delete from products where PDT_id = ?',[$id]) ;
 
         return redirect()->back()->with('message', 'Producto Eliminado Exitosamente');
+    }
+    public function obtener_datos_stock()
+    {
+
+        $resumido = DB::select("SELECT
+                    producto.PDT_id AS id,
+                    producto.PDT_name AS name,
+                    producto.PDT_brand AS brand,
+                    producto.PDT_price AS price,
+                    type_products.WGT_description AS type,
+                    producto.PDT_code AS code
+                        FROM
+                            products AS producto
+                        LEFT JOIN weight_products AS type_products ON type_products.WGT_id = producto.TPR_type");
+        return DataTables::of($resumido)
+            ->addColumn('action', function ($resumido) {
+                return '
+                <a href=""  data-toggle="modal" data-target="#modal_editar"  data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-brand="' . $resumido->brand . '"
+                 data-price="' . $resumido->price . '" data-type="' . $resumido->type . '" data-code="' . $resumido->code . '" class="btn btn-xs btn-primary editar_boton">
+                            <i class="glyphicon glyphicon-edit"></i> Editar</a>';
+            })
+            ->make(true);
+    }
+
+    public function eliminar_desde_datatable(Request $request)
+    {
+        $id = $request->input('id');
+        $perfil = Product::find($id);
+        $perfil->delete();
+        return redirect('/productos');
+    }
+
+    public function editar_producto(Request $request)
+    {
+        $id = $request->input('id_edit');
+        $producto = Product::find($id);
+        $producto->name = $request->input('name');
+        $producto->brand = $request->input('brand');
+        $producto->price = $request->input('price');
+        $producto->save();
+        return redirect('/productos');
     }
 
 }
