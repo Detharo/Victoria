@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
@@ -105,61 +107,86 @@
 
                         </div>
                         <!----------LISTADO DE USUARIOS-------->
-                        <p ><h3 >Usuarios Registrados</h3></p>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr class="active">
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>RUT</th>
-                                <th>Email</th>
-                                <th>Tipo</th>
+                        <div class="row">
+                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Usuarios Registrados</div>
+                                    <div class="panel-body">
+                                        <table id="usuarios-table" class="table table-striped">
+                                            <thead>
+                                            <tr>
 
+                                                <td>ID</td>
+                                                <td>Nombre</td>
+                                                <td>Rut</td>
+                                                <td>Email</td>
+                                                <td>Tipo Usuario</td>
+                                                <td>Operaciones</td>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <a href="{{ url('/home' )}}" ><span class=""></span>
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                        @foreach($user as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td class="col-lg-12">{{ $user->name }}</td>
-                                <td class="col-lg-12">{{ $user->rut }}</td>
-                                <td class="col-lg-12">{{ $user->email }}</td>
-                                @foreach($typeUser as $type)
-                                @if($user->TUS_id == $type->TUS_id)<td class="col-lg-12">{{ $type->TUS_description}}@endif</td>
-                                @endforeach
+                                            <button  class="btn btn-success">Atrás</button>
+                                        </a>
+                                    </div>
 
+                                </div>
 
-                                <td class="col-md-2">
-                                    <form  method="POST" action="{{ route('product.edit', $user)  }}">
+                            </div>
+                        </div>
 
-
-                                        <button type="submit" class="btn btn-info">Editar</button>
-                                    </form>
-                                </td>
-                                <td class="col-md-2">
-                                    <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $user->id]) }}" method="POST">
-
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-
-                                    </form>
-
-                                </td>
-                            </tr>
-                        @endforeach
-                        </table>
                     </div>
-                    <a href="{{ url('/home' )}}" ><span class=""></span>
 
-                        <button  class="btn btn-success">Atrás</button>
-                    </a>
+                    <div class="modal fade" id="modal_editar" role="dialog">
+                        <form class="form-horizontal" method="POST" action="{{ route('editar_usuario') }}">
+                            {{ csrf_field() }}
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Editar Usuario </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="Nombre">Nombre:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="edit_name" name="name" value="{{ old('name') }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="Rut">Rut:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="edit_rut" name="rut" value="{{ old('rut') }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="Email">Email:</label>
+                                            <div class="col-sm-6">
+                                                <input type="email" class="form-control" id="edit_email" name="email" value="{{ old('email') }}">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="id_edit" id="id_modificar" value="" >
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="Tipo">Tipo:</label>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control" id="edit_type" name="type" value="{{ old('type') }}">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Editar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <script src="{{ asset('js/stock/user.js') }}"></script>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @endsection

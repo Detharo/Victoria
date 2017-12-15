@@ -115,6 +115,7 @@ class ProductController extends Controller
         {
             $typeUser = TypeUser::all();
             $user = User::all();
+            $this->obtener_datos_user();
             return view('product.registerU', compact('typeUser', 'user'))->with('message', 'Usuario Registrado Exitosamente');
         }
         else
@@ -153,7 +154,7 @@ class ProductController extends Controller
     public function BuscarStock(Request $request)
     {
 
-        $product = Product::code($request->get('PDT_code'))->paginate(10);;
+        $product = Product::code($request->get('PDT_code'))->paginate(10);
         //dd($product);
         $statusProduct = StatusProduct::all();
         $typeProduct = TypeProduct::all();
@@ -161,12 +162,21 @@ class ProductController extends Controller
 
         return view('product.stock',compact('statusProduct','product','typeProduct'));
     }
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
-        dd('a');
-        $prod = Product::FindOrFail($product);
-        return view('product.edit',compact('prod'));
+        try
+        {
+            $prod = Product::id($id)->paginate(10);
+            $prod = $prod[0];
+            //dd($prod[0]);
+        }
+        catch (\Exception $e)
+        {
+            dd('a');
+        }
+
+        //dd($prod);
+        return redirect()->route('product.edit',compact('prod'));
     }
 
     /**
@@ -177,7 +187,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, Product $product)
+    public function update($product)
+
     {
         //
     }
@@ -206,6 +217,7 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Producto Eliminado Exitosamente');
     }
+
     public function obtener_datos_stock()
     {
 
@@ -214,38 +226,83 @@ class ProductController extends Controller
                     producto.PDT_name AS name,
                     producto.PDT_brand AS brand,
                     producto.PDT_price AS price,
-                    type_products.WGT_description AS type,
+                    producto.PDT_weight as weight,
+                    type_products.TPR_description AS type,
+                    weight_products.WGT_description AS Tweight,
                     producto.PDT_code AS code
                         FROM
                             products AS producto
-                        LEFT JOIN weight_products AS type_products ON type_products.WGT_id = producto.TPR_type");
+                        LEFT JOIN type_products AS type_products ON type_products.TPR_id = producto.TPR_type
+                        LEFT JOIN weight_products AS weight_products ON weight_products.WGT_id = producto.WGT_type");
         return DataTables::of($resumido)
             ->addColumn('action', function ($resumido) {
                 return '
-                <a href=""  data-toggle="modal" data-target="#modal_editar"  data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-brand="' . $resumido->brand . '"
-                 data-price="' . $resumido->price . '" data-type="' . $resumido->type . '" data-code="' . $resumido->code . '" class="btn btn-xs btn-primary editar_boton">
-                            <i class="glyphicon glyphicon-edit"></i> Editar</a>';
+                <a href=""  data-toggle="modal" data-target="#modal_editar"  
+                data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-brand="' . $resumido->brand . '" data-price="' . $resumido->price . '" 
+                data-type="' . $resumido->type . '" data-code="' . $resumido->code . ' " data-weight="' . $resumido->weight. '" data-Tweight="' . $resumido->Tweight.'" class="btn btn-xs btn-primary editar_boton">
+                <i class="glyphicon glyphicon-edit"></i> Editar</a>
+                
+                 <a href="' . route('eliminar_producto',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-danger eliminar_boton">
+                <i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+                
+                <a href="' . route('Qlist',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-success eliminar_boton">
+                <i class="glyphicon glyphicon-list-alt"></i> Detalles</a>';
             })
+
             ->make(true);
     }
 
-    public function eliminar_desde_datatable(Request $request)
+    public function eliminar_desde_datatable($id)
     {
-        $id = $request->input('id');
-        $perfil = Product::find($id);
-        $perfil->delete();
-        return redirect('/productos');
+        DB::delete('delete from products where PDT_id = ?',[$id]) ;
+        return redirect('/productos')->with('message', 'Producto Eliminado Exitosamente');
     }
 
     public function editar_producto(Request $request)
     {
-        $id = $request->input('id_edit');
-        $producto = Product::find($id);
-        $producto->name = $request->input('name');
-        $producto->brand = $request->input('brand');
-        $producto->price = $request->input('price');
-        $producto->save();
-        return redirect('/productos');
+       //dd('UPDATE products FROM products SET PDT_name ="'. $request->input('name') .'" PDT_brand ="'. $request->input('brand') .'" PDT_price ="'. $request->input('price') .'" PDT_code ="'. $request->input('code') .'" PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
+
+        DB::update('UPDATE products SET PDT_name ="'. $request->input('name') .'", PDT_brand ="'. $request->input('brand') .'", PDT_price ="'. $request->input('price') .'", PDT_code ="'. $request->input('code') .'", PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
+        return redirect('/productos')->with('message', 'Producto Editado Exitosamente');
     }
 
+
+    public function obtener_datos_user()
+    {
+
+        $resumido = DB::select("SELECT
+                    usuario.id AS id,
+                    usuario.name AS name,
+                    usuario.rut AS rut,
+                    usuario.email AS email,
+                    tipo.TUS_description AS type
+                    FROM
+                            users AS usuario
+                        LEFT JOIN type_users AS tipo ON tipo.TUS_id = usuario.TUS_id");
+        return DataTables::of($resumido)
+            ->addColumn('action', function ($resumido) {
+                return '
+                <a href=""  data-toggle="modal" data-target="#modal_editar"  
+                data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-rut="' . $resumido->rut . '" data-type="' . $resumido->type . '" data-email="' . $resumido->email . '" 
+                class="btn btn-xs btn-primary editar_boton">
+                <i class="glyphicon glyphicon-edit"></i> Editar</a>
+                
+                 <a href="' . route('eliminar_usuario',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-danger eliminar_boton">
+                <i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+            })
+
+            ->make(true);
+    }
+    public function editar_usuario(Request $request)
+    {
+        //dd('UPDATE products FROM products SET PDT_name ="'. $request->input('name') .'" PDT_brand ="'. $request->input('brand') .'" PDT_price ="'. $request->input('price') .'" PDT_code ="'. $request->input('code') .'" PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
+
+        DB::update('UPDATE users SET name ="'. $request->input('name') .'", rut ="'. $request->input('rut') .'", email ="'. $request->input('email') .'" WHERE id ="'. $request->input('id_edit') .'"');
+        return redirect('/rusuario')->with('message', 'Usuario Editado Exitosamente');
+    }
+    public function eliminar_usuario($id)
+    {
+        DB::delete('delete from users where id = ?',[$id]) ;
+        return redirect('/productos')->with('message', 'Usuario Eliminado Exitosamente');
+    }
 }

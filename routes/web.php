@@ -13,7 +13,12 @@
 
 Route::get('/stock/listado', 'ProductController@obtener_datos_stock');
 Route::post('/producto/editar','ProductController@editar_producto')->name('editar_producto');
-Route::any('/producto/eliminar','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
+Route::any('/producto/eliminar/{PDT_id}','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
+
+Route::get('/rusuario', 'ProductController@obtener_datos_user');
+Route::post('/user/editar','ProductController@editar_usuario')->name('editar_usuario');
+Route::any('/user/eliminar/{id}','ProductController@eliminar_usuario')->name('eliminar_usuario');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,7 +27,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/product/{PDT_id]/edit','ProductController@edit');
+Route::get('/product/{PDT_id}/edit/','ProductController@edit')->name('Pedit');
 
 Route::resource('/product','ProductController');
 
@@ -32,13 +37,13 @@ Route::get('/product.stock','QuantityProductController@index')->name("stock");
 
 Route::post('/product.CHStatus/{id}','ProductController@updateSTS')->name("actSTS");
 
-Route::post('/product.quantity/{PDT_id}','QuantityProductController@Qlist')->name("Qlist");
+Route::any('/product.quantity/{PDT_id}','QuantityProductController@Qlist')->name("Qlist");
 
 Route::put('/product.quantity/{PDT_code}','QuantityProductController@update')->name("Qupdate");
 
 Route::get('/productos','ProductController@list');
 
-Route::get('/rusuario','ProductController@rusuario');
+Route::get('/rusuario','ProductController@rusuario')->name("rusuario");
 
 Route::resource('/typeproduct','TypeProductController');
 

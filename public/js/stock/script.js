@@ -14,15 +14,21 @@ $(document).ready(function() {
                 {data: 'price', name: 'price'},
                 {data: 'type', name: 'type'},
                 {data: 'code', name: 'code'},
+                {data: 'weight', name: 'weight'},
+                {data: 'Tweight', name: 'Tweight'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
     })
-    $("#stock-table").on('click', 'tbody > tr > td:nth-child(7) > a.btn.btn-xs.btn-primary.editar_boton',function () {
+    $("#stock-table").on('click', 'tbody > tr > td:nth-child(9) > a.btn.btn-xs.btn-primary.editar_boton',function () {
         var dato = $(this).attr('data-id');
         $('#id_modificar').val(dato);
         $('#edit_name').val($(this).attr('data-name'));
         $('#edit_brand').val($(this).attr('data-brand'));
         $('#edit_price').val($(this).attr('data-price'));
+        $('#edit_type').val($(this).attr('data-type'));
+        $('#edit_code').val($(this).attr('data-code'));
+        $('#edit_weight').val($(this).attr('data-weight'));
+        $('#edit_Tweight').val($(this).attr('data-Tweight'));
     });
 });

@@ -49,7 +49,7 @@
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>
                     @if (Auth::user()->TUS_id == 1)
                         <h3>Módulo Usuarios</h3>
-                        <a href="{{ url('/rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
+                        <a href="{{ route('rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
                     @endif
                         <h3>Módulo Bodegas</h3>
                         <a href="{{ route('statusproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Bodegas</a>
