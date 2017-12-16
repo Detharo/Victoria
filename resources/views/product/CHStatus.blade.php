@@ -2,129 +2,86 @@
 
 @section('content')
     <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">Mis Productos</div>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+
+        <div class="row">
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Cambiar stados/Bodegas de Productos</div>
+
+                    <div class="col-md-12">
+                        @if (Session::has('message'))
+                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                        @endif
+
+                    </div>
 
                     <div class="panel-body">
-                        {{ Form::model(Request::all(),['url'=> '/CHStatus','method'=> 'GET','class'=>'navbar-form navbar-left','role'=>'search']) }}
-                        <div class="form-group">
-                            {{ Form::text('PDT_name',null,['class'=>'form-control','placeholder'=>'Nombre Producto']) }}
-                            {{ Form::text('PDT_brand',null,['class'=>'form-control','placeholder'=>'Marca Producto']) }}
-
-                            {{ Form::text('PDT_code',null,['class'=>'form-control','placeholder'=>'Código Producto']) }}
-                        </div>
-                        <button type="submit" class="btn btn-default">Buscar</button>
-                        {{Form::close()}}
-                    </div>
-                        <div class="panel-body pull-left">
-                       @if($validator == 1) <h1>{{$prodName}}</h1> @endif
-                        </div>
-
-
-                <div class="panel-body">
-                    @if($validator == 1)
-                        <table class="table table-stripped">
-                            <form class="form-horizontal" action="{{ route('actSTS',['QuantityProduct'=>$id]) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('POST') }}
+                        <table id="cantidad-table" class="table table-striped">
                             <thead>
-                            <tr class="active">
-                                <th>Cantidad Actual</th>
-                                <th>Bodega/Estado Actual</th>
-                                <th>Cantidad Destino</th>
-                                <th>Bodega Destino</th>
+                            <tr>
 
-                                <th>Operación</th>
-
-                                <th></th>
-
+                                <td>ID</td>
+                                <td>Nombre</td>
+                                <td>Cantidad Actual</td>
+                                <td>Estado/Bodega Actual</td>
+                                <td>Operaciones</td>
+                                <td> </td>
                             </tr>
                             </thead>
+                        </table>
+                        <a href="{{ url('/home' )}}" ><span class=""></span>
 
-                            <tbody>
-                            @foreach($quantityProduct as $prod)
-                            <tr>
-                                <!-----------------------------CANTIDAD------------------------------------------------------------------>
-                                @if($id == $prod->PDT_id)
-                                    <td>
-                                    {{$prod->QTY_description}}
-                                    </td>
-                                @endif
-                                <!-----------------------------BODEGA/ESTADO------------------------------------------------------------------------------>
-                                @if($id == $prod->PDT_id)
-                                        <td>
+                            <button  class="btn btn-success">Atrás</button>
+                        </a>
+                    </div>
 
-                                        @foreach($statusProduct as $type)
-                                            @if($prod->STS_id == $type->STS_id)  {{$type->STS_description}} @endif
-                                        @endforeach
-
-                                         </td>
-                                @endif
-                                <!------------------------------STOCK A RESTAR----------------------------------------------------------------------------->
-                                @if($id == $prod->PDT_id)
-
-                                    <td>
-                                        <div class="col-md-6">
-                                            <input id="QTY_description" type="number" class="form-control" name="QTY_description" value="{{ old('QTY_description') }}" required autofocus/>
-                                        </div>
-                                    </td>
-                                @endif
-                                <!---------------------------------BODEGA/ESTADO DESTINO----------------------------------------------------------------------->
-                                @if($id == $prod->PDT_id)
-                                    <td>
-
-                                        <select name="STS_id" id="" class="form-control">
-                                            <option value="">Seleccione Estado/Bodega...</option>
-                                            @foreach($statusProduct as $type)
-                                                <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
-                                            @endforeach
-                                            <option value="Merma">MERMA</option>
-                                            <option value="Vendido">VENDIDO</option>
-                                            <option value="Oferta">OFERTA</option>
-                                        </select>
-
-                                     </td>
-                                @endif
-                                <!-----------------------------------BOTON--------------------------------------------------------------->
-                                @if($id == $prod->PDT_id)
-                                    <td>
-
-                                            <div class="col-md-6 ">
-                                                <button type="submit" class="btn btn-primary">
-                                                    Cambiar
-                                                </button>
-                                            </div>
-
-                                    </td>
-                                @endif
-                            </tr>
-                            @endforeach
-                            </tbody>
-                            </form></table>
-
-
-                    @endif
-
-                    @if($validator == 0)
-                       <div class="col-md-12">
-                           <div class="alert alert-danger">
-                               Producto no Encontrado
-                           </div>
-                       </div>
-                    @endif
-
-
-
-
-                <a href="{{ url('/home' )}}" ><span class=""></span>
-                    <button  class="btn btn-success">Atrás</button>
-                </a>
-                        @if($validator == 1){{ $product->appends(Request::all())->render() }}@endif
                 </div>
+
             </div>
         </div>
+
     </div>
+    <div class="modal fade" id="modal_editar" role="dialog">
+        <form class="form-horizontal" method="POST" action="{{ route('editar_producto') }}">
+            {{ csrf_field() }}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Editar Producto </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="Cantidad">Cantidad:</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="edit_quantity" name="quantity" value="{{ old('quantity') }}">
+                            </div>
+                        </div>
+                        <input type="hidden" name="id_edit" id="id_modificar" value="" >
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="Destino">Destino:</label>
+                                <div class="col-sm-6">
+                                <select name="STS_type" id="" class="form-control">
+                            @foreach($statusProduct as $type)
+                                <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
+                            @endforeach
+                                </select>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Cambiar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{{ asset('js/stock/quantity.js') }}"></script>
     </div>
 @endsection

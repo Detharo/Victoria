@@ -51,6 +51,7 @@
                                         <tr class="active">
                                             <th>ID</th>
                                             <th>Descripción</th>
+                                            <th></th>
 
 
                                         </tr>
@@ -61,13 +62,7 @@
                                             <tr>
                                                 <td>{{ $prod->TPR_id }}</td>
                                                 <td class="col-lg-12">{{ $prod->TPR_description }}</td>
-                                                <td class="col-md-2">
-                                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
 
-
-                                                        <button type="submit" class="btn btn-info">Editar</button>
-                                                    </form>
-                                                </td>
                                                 <td class="col-md-2">
                                                     <form action="{{ route('eliminaTPR',['TypeProduct'=> $prod->TPR_id]) }}" method="POST">
 

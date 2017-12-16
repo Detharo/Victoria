@@ -15,9 +15,13 @@ Route::get('/stock/listado', 'ProductController@obtener_datos_stock');
 Route::post('/producto/editar','ProductController@editar_producto')->name('editar_producto');
 Route::any('/producto/eliminar/{PDT_id}','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
 
-Route::get('/rusuario', 'ProductController@obtener_datos_user');
+Route::get('user/rusuario', 'ProductController@obtener_datos_user');
 Route::post('/user/editar','ProductController@editar_usuario')->name('editar_usuario');
 Route::any('/user/eliminar/{id}','ProductController@eliminar_usuario')->name('eliminar_usuario');
+Route::any('/rusuario}','ProductController@createUser')->name('createUser');
+
+Route::get('/stock/quantity', 'QuantityProductController@obtener_datos_quantity');
+Route::post('/quantity/editar','QuantityProductController@editar_producto')->name('editar_producto');
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,7 +39,7 @@ Route::resource('/stock','QuantityProductController');
 
 Route::get('/product.stock','QuantityProductController@index')->name("stock");
 
-Route::post('/product.CHStatus/{id}','ProductController@updateSTS')->name("actSTS");
+Route::post('/product.CHStatus','QuantityProductController@actSTS')->name("actSTS");
 
 Route::any('/product.quantity/{PDT_id}','QuantityProductController@Qlist')->name("Qlist");
 

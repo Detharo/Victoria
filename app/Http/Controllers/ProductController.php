@@ -115,7 +115,6 @@ class ProductController extends Controller
         {
             $typeUser = TypeUser::all();
             $user = User::all();
-            $this->obtener_datos_user();
             return view('product.registerU', compact('typeUser', 'user'))->with('message', 'Usuario Registrado Exitosamente');
         }
         else
@@ -123,13 +122,21 @@ class ProductController extends Controller
             return redirect()->back()->with('message', 'Permiso Denegado');
         }
     }
-
+    protected function createUser(Request $data)
+    {
+        User::create([
+            'name' => $data->name,
+            'email' => $data->email,
+            'rut' => $data->rut,
+            'password' => bcrypt($data->password),
+            'TUS_id'=> $data->type_user,
+        ]);
+        return redirect()->route('rusuario')->with('message','Usuario Registrado Exitosamente');
+    }
     public function CHstatus(Product $product,Request $request)
     {
 
         try {
-            $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
-
             $id = $product[0]->PDT_id;
             $validator = 1;
             $prodName = $product[0]->PDT_name;
@@ -287,7 +294,7 @@ class ProductController extends Controller
                 class="btn btn-xs btn-primary editar_boton">
                 <i class="glyphicon glyphicon-edit"></i> Editar</a>
                 
-                 <a href="' . route('eliminar_usuario',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-danger eliminar_boton">
+                 <a href="' . route('eliminar_usuario',['User'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-danger eliminar_boton">
                 <i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
             })
 
@@ -303,6 +310,6 @@ class ProductController extends Controller
     public function eliminar_usuario($id)
     {
         DB::delete('delete from users where id = ?',[$id]) ;
-        return redirect('/productos')->with('message', 'Usuario Eliminado Exitosamente');
+        return redirect('/rusuario')->with('message', 'Usuario Eliminado Exitosamente');
     }
 }

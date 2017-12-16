@@ -10,7 +10,7 @@
                     <div class="panel-heading">Registro de Nuevos Usuarios</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('createUser') }}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -108,7 +108,7 @@
                         </div>
                         <!----------LISTADO DE USUARIOS-------->
                         <div class="row">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">Usuarios Registrados</div>
                                     <div class="panel-body">

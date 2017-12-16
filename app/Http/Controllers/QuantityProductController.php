@@ -13,6 +13,7 @@ use App\WeightProduct;
 use DB;
 use Auth;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class QuantityProductController extends Controller
 {
@@ -322,4 +323,47 @@ class QuantityProductController extends Controller
     {
         //
     }
+
+    public function actSTS(Request $request)
+    {
+            dd($request->a);
+
+
+
+
+        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+    }
+    public function obtener_datos_quantity()
+    {
+
+        $resumido = DB::select("SELECT
+                    cantidad.QTY_id AS id,
+                    cantidad.QTY_description AS quantity,        
+                    status_products.STS_description AS type,
+                    products.PDT_name AS name
+                        FROM
+                            quantity_products AS cantidad
+                        LEFT JOIN status_products AS status_products ON status_products.STS_id = cantidad.STS_id
+                        LEFT JOIN products AS products ON products.PDT_id = products.PDT_id
+                        WHERE products.PDT_id = cantidad.PDT_id AND status_products.STS_id = cantidad.STS_id");
+        return DataTables::of($resumido)
+            ->addColumn('action', function ($resumido) {
+                return '
+                <a href=""  data-toggle="modal" data-target="#modal_editar"  
+                data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-quantity="' . $resumido->quantity . '" data-type="' . $resumido->type . '" 
+                class="btn btn-xs btn-primary editar_boton">
+                <i class="glyphicon glyphicon-edit"></i> Editar</a>
+                ';
+            })
+
+            ->make(true);
+    }
+    public function editar_producto(Request $request)
+    {
+        //dd('UPDATE products FROM products SET PDT_name ="'. $request->input('name') .'" PDT_brand ="'. $request->input('brand') .'" PDT_price ="'. $request->input('price') .'" PDT_code ="'. $request->input('code') .'" PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
+    dd($request);
+        DB::update('UPDATE users SET name ="'. $request->input('name') .'", rut ="'. $request->input('rut') .'", email ="'. $request->input('email') .'" WHERE id ="'. $request->input('id_edit') .'"');
+        return redirect('/rusuario')->with('message', 'Usuario Editado Exitosamente');
+    }
 }
+

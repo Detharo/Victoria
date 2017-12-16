@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Registro de Tipos de Productos</div>
+                    <div class="panel-heading">Registro de Bodegas/Estado de Productos</div>
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('statusproduct.store') }}">
@@ -51,6 +51,7 @@
                                         <tr class="active">
                                             <th>ID</th>
                                             <th>Descripción</th>
+                                            <th></th>
 
 
                                         </tr>
@@ -61,13 +62,7 @@
                                             <tr>
                                                 <td>{{ $prod->STS_id }}</td>
                                                 <td class="col-lg-12">{{ $prod->STS_description }}</td>
-                                                <td class="col-md-2">
-                                                    <form  method="POST" action="{{ route('statusproduct.update',['$StatusProduct'=>$prod->STS_id])  }}">
 
-
-                                                        <button type="submit" class="btn btn-info">Editar</button>
-                                                    </form>
-                                                </td>
                                                 <td class="col-md-2">
                                                     <form action="{{ route('statusproduct.destroy',['StatusProduct'=> $prod->STS_id]) }}" method="POST">
 
