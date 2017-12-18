@@ -59,10 +59,13 @@ Route::delete('delete/{STS_id}','StatusProductController@destroy');
 
 Route::get('/CHStatus','ProductController@CHStatus');
 
-
 Route::get('product.storage1','ProductController@storage1');
+Route::post('product.storage1','ProductController@storageCH')->name('storageCH');
+
 
 Route::get('product.storage2','ProductController@storage2');
+Route::post('product.storage2','ProductController@storageCH2')->name('storageCH2');
+
 
 Route::get('/BuscarStock','ProductController@BuscarStock');
 

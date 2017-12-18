@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\DecreaseProduct;
+use App\OfferProduct;
 use App\QuantityProduct;
+use App\SoldProduct;
 use App\StatusProduct;
 use App\TypeProduct;
 use App\TypeUser;
@@ -211,11 +214,129 @@ class ProductController extends Controller
 
         return view('storage.CHstorage1');
     }
+
+
+    public function storageCH(Request $request)
+    {
+        $prod = Product::all();
+        $qty = new QuantityProduct();
+        $sold = new SoldProduct();
+        $offer= new OfferProduct();
+        $dcs = new DecreaseProduct();
+        $producto = "";
+        foreach ($prod as $pro)
+        {
+
+            if($pro->PDT_code == $request->PDT_code)
+            {
+                $producto = $pro->PDT_id; //capturo el ID del producto
+                $nombreProduct = $pro->PDT_name; //capturo el nombre del producto
+
+
+            }
+
+        }
+        if($producto == "" || $producto == null )
+        {
+            return redirect()->back()->with('message2', 'Producto No Existe');
+        }
+        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 1');
+        $cantidadVitrina=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 8');
+        //dd('bodega='.$quantity[0]->resu.' vitrina='.$cantidadVitrina[0]->resu);
+        if($quantity == "" || $quantity == null || $quantity[0]->resu == 0) //verifico si el producto existe o si su stock es de 0
+        {
+            return redirect()->back()->with('message2', 'No hay stock registrado');
+        }
+        else{
+            $quantity = (int) $quantity[0]->resu;
+            $cantidadVitrina = (int) $cantidadVitrina[0]->resu;
+            //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
+            $quantity = (int) $quantity - 1 ;
+            $cantidadVitrina = (int) $cantidadVitrina + 1 ;
+            //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
+
+            //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE - 1
+            $update = $this->updateSTG1($producto,$quantity,$nombreProduct,$cantidadVitrina);
+            return $update;
+        }
+
+    }
+    public function updateSTG1($id,$quantity,$nombre,$vitrina)
+    {
+
+        //UPDATE persondata SET edad=edad*2, edad=edad+1;
+        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = 1');
+        DB::update('UPDATE quantity_products SET QTY_description ='.$vitrina.' WHERE PDT_id = '.$id.' AND STS_id = 8');
+
+
+
+        return redirect()->back()->with('message', 'Se restó 1 '.$nombre.' y se agregó a VITRINA');
+    }
+
+
     public function storage2()
     {
 
         return view('storage.CHstorage2');
     }
+    public function storageCH2(Request $request)
+    {
+        $prod = Product::all();
+        $qty = new QuantityProduct();
+        $sold = new SoldProduct();
+        $offer= new OfferProduct();
+        $dcs = new DecreaseProduct();
+        $producto = "";
+        foreach ($prod as $pro)
+        {
+
+            if($pro->PDT_code == $request->PDT_code)
+            {
+                $producto = $pro->PDT_id; //capturo el ID del producto
+                $nombreProduct = $pro->PDT_name; //capturo el nombre del producto
+
+
+            }
+
+        }
+        if($producto == "" || $producto == null )
+        {
+            return redirect()->back()->with('message2', 'Producto No Existe');
+        }
+        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 7');
+        $cantidadB1=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 1');
+        //dd('bodega='.$quantity[0]->resu.' vitrina='.$cantidadVitrina[0]->resu);
+        if($quantity == "" || $quantity == null || $quantity[0]->resu == 0) //verifico si el producto existe o si su stock es de 0
+        {
+            return redirect()->back()->with('message2', 'No hay stock registrado');
+        }
+        else{
+            $quantity = (int) $quantity[0]->resu;
+            $cantidadB1 = (int) $cantidadB1[0]->resu;
+            //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
+            $quantity = (int) $quantity - 1 ;
+            $cantidadB1 = (int) $cantidadB1 + 1 ;
+            //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
+
+            //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE - 1
+            $update = $this->updateSTG2($producto,$quantity,$nombreProduct,$cantidadB1);
+            return $update;
+        }
+
+    }
+    public function updateSTG2($id,$quantity,$nombre,$bodega1)
+    {
+
+        //UPDATE persondata SET edad=edad*2, edad=edad+1;
+        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = 7');
+        DB::update('UPDATE quantity_products SET QTY_description ='.$bodega1.' WHERE PDT_id = '.$id.' AND STS_id = 1');
+
+
+
+        return redirect()->back()->with('message', 'Se restó 1 '.$nombre.' y se agregó a BODEGA 1');
+    }
+
+
     public function destroy($id)
     {
         //

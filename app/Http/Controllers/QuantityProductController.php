@@ -350,7 +350,10 @@ class QuantityProductController extends Controller
             ->addColumn('action', function ($resumido) {
                 return '
                 <a href=""  data-toggle="modal" data-target="#modal_editar"  
-                data-id="' . $resumido->id . '" data-name="' . $resumido->name . '" data-quantity="' . $resumido->quantity . '" data-type="' . $resumido->type . '" 
+                data-id="' . $resumido->id . '" 
+                data-name="' . $resumido->name . '" 
+                data-quantity="' . $resumido->quantity . '" 
+                data-type="' . $resumido->type . '" 
                 class="btn btn-xs btn-primary editar_boton">
                 <i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';

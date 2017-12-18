@@ -61,6 +61,11 @@ class StatusProductController extends Controller
 
         return redirect()->back()->with('message', 'Estado Registrado Exitosamente');
     }
+    public function storeCH(Request $request)
+    {
+        dd('a');
+    }
+
 
     /**
      * Display the specified resource.

@@ -16,8 +16,9 @@ $(document).ready(function() {
             ]
         });
     })
-    $("#usuarios-table").on('click', 'tbody > tr > td:nth-child(1) > a.btn.btn-xs.btn-primary.editar_boton',function () {
+    $("#usuarios-table").on('click', 'tbody > tr > td:nth-child(3) > a.btn.btn-xs.btn-primary.editar_boton',function () {
         var dato = $(this).attr('data-id');
         $('#id_modificar').val(dato);
+        $('#edit_quantity').val($(this).attr('data-quantity'));
     });
 });

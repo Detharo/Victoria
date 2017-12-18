@@ -54,28 +54,29 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-
-                        <div class="form-group">
                             <label class="control-label col-sm-4" for="Cantidad">Cantidad:</label>
                             <div class="col-sm-6">
                                 <input type="number" class="form-control" id="edit_quantity" name="quantity" value="{{ old('quantity') }}">
                             </div>
                         </div>
+
                         <input type="hidden" name="id_edit" id="id_modificar" value="" >
 
                         <div class="form-group">
                             <label class="control-label col-sm-4" for="Destino">Destino:</label>
-                                <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <select name="STS_type" id="" class="form-control">
-                            @foreach($statusProduct as $type)
-                                <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
-                            @endforeach
+                                    @foreach($statusProduct as $type)
+                                        <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
+                                    @endforeach
                                 </select>
-                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Cambiar</button>
+                        <button type="submit" class="btn btn-primary">Editar</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
