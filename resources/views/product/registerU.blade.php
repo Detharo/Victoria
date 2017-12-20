@@ -167,12 +167,7 @@
                                             </div>
                                         </div>
                                         <input type="hidden" name="id_edit" id="id_modificar" value="" >
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-4" for="Tipo">Tipo:</label>
-                                            <div class="col-sm-6">
-                                                <input type="number" class="form-control" id="edit_type" name="type" value="{{ old('type') }}">
-                                            </div>
-                                        </div>
+
 
                                     </div>
                                     <div class="modal-footer">

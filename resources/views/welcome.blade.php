@@ -85,6 +85,7 @@
                 <div class="row">
                     <img src="{{ asset('/img/logoDA.png') }}" alt="Don Agustin" width="150" height="150"/>
                 </div>
+                <h5>v1.0</h5>
             </div>
         </div>
     </body>

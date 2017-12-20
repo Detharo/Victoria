@@ -138,7 +138,8 @@ class ProductController extends Controller
     }
     public function CHstatus(Product $product,Request $request)
     {
-
+        if (Auth::user()->TUS_id == 1)
+        {
         try {
             $id = $product[0]->PDT_id;
             $validator = 1;
@@ -157,6 +158,11 @@ class ProductController extends Controller
             $quantityProduct = QuantityProduct::all();
             $prodName= "";
             return view('product.CHStatus', compact('prodName','statusProduct','validator','typeProduct','quantityProduct'))->with('message', 'Producto no encontrado');
+        }
+        }
+        else
+        {
+            return redirect()->back()->with('message', 'Permiso Denegado');
         }
     }
 
@@ -214,8 +220,6 @@ class ProductController extends Controller
 
         return view('storage.CHstorage1');
     }
-
-
     public function storageCH(Request $request)
     {
         $prod = Product::all();
@@ -336,7 +340,48 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Se restó 1 '.$nombre.' y se agregó a BODEGA 1');
     }
 
+    public function merma()
+    {
 
+        return view('product.merma');
+    }
+    public function obtener_datos_merma()
+    {
+
+        $resumido = DB::select("SELECT
+                    cantidad.DCS_id AS id,
+                    cantidad.DCS_quantity AS quantity,
+                    products.PDT_name AS name
+                        FROM
+                            decrease_products AS cantidad
+                        LEFT JOIN products AS products ON products.PDT_id = products.PDT_id
+                        WHERE products.PDT_id = cantidad.PDT_id");
+        return DataTables::of($resumido)
+
+
+            ->make(true);
+    }
+    public function vendido()
+    {
+
+        return view('product.vendido');
+    }
+    public function obtener_datos_vendido()
+    {
+
+        $resumido = DB::select("SELECT
+                    cantidad.SLD_id AS id,
+                    cantidad.SLD_quantity AS quantity,
+                    products.PDT_name AS name
+                        FROM
+                            sold_products AS cantidad
+                        LEFT JOIN products AS products ON products.PDT_id = products.PDT_id
+                        WHERE products.PDT_id = cantidad.PDT_id");
+        return DataTables::of($resumido)
+
+
+            ->make(true);
+    }
     public function destroy($id)
     {
         //

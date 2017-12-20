@@ -8,11 +8,17 @@
         <div class="row">
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Cambiar stados/Bodegas de Productos</div>
+                    <div class="panel-heading">Cambiar Estados/Bodegas de Productos</div>
 
                     <div class="col-md-12">
                         @if (Session::has('message'))
                             <div class="alert alert-success">{{ Session::get('message') }}</div>
+                        @endif
+
+                    </div>
+                    <div class="col-md-12">
+                        @if (Session::has('message2'))
+                            <div class="alert alert-danger">{{ Session::get('message2') }}</div>
                         @endif
 
                     </div>
@@ -27,7 +33,6 @@
                                 <td>Cantidad Actual</td>
                                 <td>Estado/Bodega Actual</td>
                                 <td>Operaciones</td>
-                                <td> </td>
                             </tr>
                             </thead>
                         </table>
@@ -54,13 +59,20 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="control-label col-sm-4" for="Cantidad">Cantidad:</label>
+                            <label class="control-label col-sm-4"  for="Cantidad">Cantidad Actual:</label>
                             <div class="col-sm-6">
-                                <input type="number" class="form-control" id="edit_quantity" name="quantity" value="{{ old('quantity') }}">
+                                <input type="number" class="form-control" readonly="readonly" id="edit_quantity" name="quantity" value="{{ old('quantity') }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4"  for="Cantidad">Cantidad Destino:</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="new_quantity" name="new_quantity" value="{{ old('quantity') }}">
                             </div>
                         </div>
 
                         <input type="hidden" name="id_edit" id="id_modificar" value="" >
+                        <input type="hidden" name="type" id="type" value="" >
 
                         <div class="form-group">
                             <label class="control-label col-sm-4" for="Destino">Destino:</label>
@@ -69,6 +81,8 @@
                                     @foreach($statusProduct as $type)
                                         <option value="{{ $type->STS_id }}"> {{$type->STS_description}} </option>
                                     @endforeach
+                                        <option value="MERMA">MERMA</option>
+                                        <option value="VENDIDO">VENDIDO</option>
                                 </select>
                             </div>
                         </div>

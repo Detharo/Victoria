@@ -41,14 +41,17 @@
                     <div class="list-group">
                         <h3>Módulo Productos</h3>
                         <a href="{{route('product.create')}}" class="list-group-item"><span class=""></span> Ingresar Productos</a>
-                        <a href="{{ url('/productos') }}" class="list-group-item"><span class=""></span> Listar Productos</a>
                     @if (Auth::user()->TUS_id == 1)
                             <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Tipos de Productos</a>
                             <a href="{{ url('/stock' )}}" class="list-group-item"><span class=""></span> Agregar Stock</a>
                     @endif
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto</a>
                     @if (Auth::user()->TUS_id == 1)
-                        <h3>Módulo Usuarios</h3>
+                            <h3>Módulo Información</h3>
+                            <a href="{{ url('/productos') }}" class="list-group-item"><span class=""></span> Listar Productos</a>
+                            <a href="{{ url('product.vendido') }}" class="list-group-item"><span class=""></span> Listar Productos Vendidos</a>
+                            <a href="{{ url('product.merma') }}" class="list-group-item"><span class=""></span> Listar en Merma</a>
+                            <h3>Módulo Usuarios</h3>
                         <a href="{{ route('rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios</a>
                     @endif
                         <h3>Módulo Bodegas</h3>

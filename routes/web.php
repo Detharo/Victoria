@@ -21,7 +21,7 @@ Route::any('/user/eliminar/{id}','ProductController@eliminar_usuario')->name('el
 Route::any('/rusuario}','ProductController@createUser')->name('createUser');
 
 Route::get('/stock/quantity', 'QuantityProductController@obtener_datos_quantity');
-Route::post('/quantity/editar','QuantityProductController@editar_producto')->name('editar_producto');
+Route::post('/quantity/editar','QuantityProductController@editar_quantity')->name('editar_producto');
 
 Route::get('/', function () {
     return view('welcome');
@@ -65,6 +65,14 @@ Route::post('product.storage1','ProductController@storageCH')->name('storageCH')
 
 Route::get('product.storage2','ProductController@storage2');
 Route::post('product.storage2','ProductController@storageCH2')->name('storageCH2');
+
+Route::get('product.merma','ProductController@merma');
+Route::get('/productos/merma', 'ProductController@obtener_datos_merma');
+
+
+Route::get('product.vendido','ProductController@vendido');
+Route::get('/productos/vendido', 'ProductController@obtener_datos_vendido');
+
 
 
 Route::get('/BuscarStock','ProductController@BuscarStock');

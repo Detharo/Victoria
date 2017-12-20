@@ -16,9 +16,11 @@ $(document).ready(function() {
             ]
         });
     })
-    $("#usuarios-table").on('click', 'tbody > tr > td:nth-child(3) > a.btn.btn-xs.btn-primary.editar_boton',function () {
+    $("#cantidad-table").on('click', 'tbody > tr > td:nth-child(5) > a.btn.btn-xs.btn-primary.editar_boton',function () {
         var dato = $(this).attr('data-id');
         $('#id_modificar').val(dato);
         $('#edit_quantity').val($(this).attr('data-quantity'));
+        $('#type').val($(this).attr('data-Tid'));
+
     });
 });
