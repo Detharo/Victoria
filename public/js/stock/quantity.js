@@ -11,12 +11,13 @@ $(document).ready(function() {
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
                 {data: 'quantity', name: 'quantity'},
+                {data: 'code', name: 'code'},
                 {data: 'type', name: 'type'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
     })
-    $("#cantidad-table").on('click', 'tbody > tr > td:nth-child(5) > a.btn.btn-xs.btn-primary.editar_boton',function () {
+    $("#cantidad-table").on('click', 'tbody > tr > td:nth-child(6) > a.btn.btn-xs.btn-primary.editar_boton',function () {
         var dato = $(this).attr('data-id');
         $('#id_modificar').val(dato);
         $('#edit_quantity').val($(this).attr('data-quantity'));

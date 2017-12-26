@@ -12,6 +12,7 @@
 */
 
 Route::get('/stock/listado', 'ProductController@obtener_datos_stock');
+Route::get('/stock/listado2', 'ProductController@obtener_datos_stock2');
 Route::post('/producto/editar','ProductController@editar_producto')->name('editar_producto');
 Route::any('/producto/eliminar/{PDT_id}','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
 
@@ -46,6 +47,8 @@ Route::any('/product.quantity/{PDT_id}','QuantityProductController@Qlist')->name
 Route::put('/product.quantity/{PDT_code}','QuantityProductController@update')->name("Qupdate");
 
 Route::get('/productos','ProductController@list');
+Route::get('/productos2','ProductController@list2');
+
 
 Route::get('/rusuario','ProductController@rusuario')->name("rusuario");
 

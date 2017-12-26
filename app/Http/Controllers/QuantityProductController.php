@@ -124,7 +124,7 @@ class QuantityProductController extends Controller
                 }
 
             }
-
+            dd('llego aca');
             if($producto == "" || $producto == null )
             {
                 return redirect()->back()->with('message2', 'Producto No Existe');
@@ -135,10 +135,11 @@ class QuantityProductController extends Controller
             }
 
             $quantity=  DB::select('SELECT CAST( SLD_quantity AS integer) as resu from sold_products WHERE PDT_id = '. $sold->PDT_id);
-
+            dd('llego');
             //verifico si el producto es nuevo
             if($quantity == "" || $quantity == null)
             {
+                dd('va a registrar');
                 $sold->SLD_quantity = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
                 $sold->save();
 
@@ -347,13 +348,14 @@ class QuantityProductController extends Controller
                     cantidad.QTY_description AS quantity,        
                     status_products.STS_description AS type,
                     status_products.STS_id AS type_id,
+                    products.PDT_code AS code,
 
                     products.PDT_name AS name
                         FROM
                             quantity_products AS cantidad
                         LEFT JOIN status_products AS status_products ON status_products.STS_id = cantidad.STS_id
                         LEFT JOIN products AS products ON products.PDT_id = products.PDT_id
-                        WHERE products.PDT_id = cantidad.PDT_id AND status_products.STS_id = cantidad.STS_id");
+                        WHERE products.PDT_id = cantidad.PDT_id AND cantidad.QTY_description>0 AND status_products.STS_id = cantidad.STS_id");
         return DataTables::of($resumido)
             ->addColumn('action', function ($resumido) {
                 return '
@@ -361,6 +363,7 @@ class QuantityProductController extends Controller
                 data-id="' . $resumido->id . '" 
                 data-Tid="' . $resumido->type_id . '" 
                 data-name="' . $resumido->name . '" 
+                data-code="'. $resumido->code .'"
                 data-quantity="' . $resumido->quantity . '" 
                 data-type="' . $resumido->type . '" 
                 class="btn btn-xs btn-primary editar_boton">
@@ -423,7 +426,8 @@ class QuantityProductController extends Controller
                 if($qty_actual == "" || $qty_actual == null)
                 {
                     // no existe
-                    DB::insert('insert into sold_products  SLD_quantity,PDT_ID) values ('. $new_quantity .','. $PDT_id.')');
+                    DB::insert('insert into sold_products  (SLD_quantity,PDT_id) values ('. $new_quantity .','. $PDT_id.')');
+
                     return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
                 }
                 else{

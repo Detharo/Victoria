@@ -132,19 +132,22 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </form><a href="{{ url('/home' )}}" ><span class=""></span>
+
+                            <button  class="btn btn-success">Atrás</button>
+                        </a>
                     </div>
                     <div class="col-md-12">
                         @if (Session::has('message'))
                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                         @endif
-                            <a href="{{ url('/home' )}}" ><span class=""></span>
+                            @if (Session::has('message2'))
+                                <div class="alert alert-danger">{{ Session::get('message2') }}</div>
+                            @endif
 
-                                <button  class="btn btn-success">Atrás</button>
-                            </a>
                     </div>
             </div>
         </div>
     </div>
-
+    </div>
 @endsection

@@ -62,6 +62,15 @@ class ProductController extends Controller
         //validacion        $this->validate($request,[           'PRD_name' => 'required|string',           'PRD_brand' => 'required|string',            PRD_price' => 'required|integer',            'PRD_code' => 'required|string',            'PRD_description' => 'required|string',        ]);
         //almacenamiento
 
+        $query = DB::select('SELECT PDT_name FROM products WHERE PDT_code = '. $request->PDT_code);
+        if( $query == "" || $query == null)
+        {
+
+        }
+        else
+        {
+            return redirect()->back()->with('message2', 'El producto ya está registrado');
+        }
         $product = new Product();
         // ($product->name) = ES EL ATRIBUTO DE LA BDD
         // ($request->name) = VIENE DEL FORMULARIO VISTA
@@ -110,6 +119,20 @@ class ProductController extends Controller
 
 
         return view('product.list',compact('typeProduct','statusProduct', 'product','quantityProduct'));
+
+    }
+    public function list2 (Product $product,Request $request)
+    {
+
+        //$product = Product::paginate(10);
+        $product = Product::name($request->get('PDT_name'))->code($request->get('PDT_code'))->brand($request->get('PDT_brand'))->type($request->get('TPR_type'))->paginate(10);
+        $statusProduct = StatusProduct::all();
+        $typeProduct = TypeProduct::all();
+        $quantityProduct = QuantityProduct::all();
+
+
+
+        return view('product.list2',compact('typeProduct','statusProduct', 'product','quantityProduct'));
 
     }
     public function rusuario()
@@ -227,6 +250,7 @@ class ProductController extends Controller
         $sold = new SoldProduct();
         $offer= new OfferProduct();
         $dcs = new DecreaseProduct();
+        $statusProduct = StatusProduct::all();
         $producto = "";
         foreach ($prod as $pro)
         {
@@ -244,8 +268,21 @@ class ProductController extends Controller
         {
             return redirect()->back()->with('message2', 'Producto No Existe');
         }
-        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 1');
-        $cantidadVitrina=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 8');
+
+        foreach ($statusProduct as $item)
+        {
+            if($item->STS_description == 'BODEGA 1')
+            {
+                $bodega = $item->STS_id;
+            }
+            elseif($item->STS_description == 'VITRINA')
+            {
+                $Nvitrina = $item->STS_id;
+            }
+        }
+
+        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id ='.$bodega);
+        $cantidadVitrina=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = '.$Nvitrina);
         //dd('bodega='.$quantity[0]->resu.' vitrina='.$cantidadVitrina[0]->resu);
         if($quantity == "" || $quantity == null || $quantity[0]->resu == 0) //verifico si el producto existe o si su stock es de 0
         {
@@ -260,17 +297,17 @@ class ProductController extends Controller
             //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
 
             //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE - 1
-            $update = $this->updateSTG1($producto,$quantity,$nombreProduct,$cantidadVitrina);
+            $update = $this->updateSTG1($producto,$quantity,$nombreProduct,$cantidadVitrina,$Nvitrina,$bodega);
             return $update;
         }
 
     }
-    public function updateSTG1($id,$quantity,$nombre,$vitrina)
+    public function updateSTG1($id,$quantity,$nombre,$vitrina,$Nvitrina,$bodega)
     {
 
         //UPDATE persondata SET edad=edad*2, edad=edad+1;
-        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = 1');
-        DB::update('UPDATE quantity_products SET QTY_description ='.$vitrina.' WHERE PDT_id = '.$id.' AND STS_id = 8');
+        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = '.$bodega);
+        DB::update('UPDATE quantity_products SET QTY_description ='.$vitrina.' WHERE PDT_id = '.$id.' AND STS_id = '.$Nvitrina);
 
 
 
@@ -290,6 +327,8 @@ class ProductController extends Controller
         $sold = new SoldProduct();
         $offer= new OfferProduct();
         $dcs = new DecreaseProduct();
+        $statusProduct = StatusProduct::all();
+
         $producto = "";
         foreach ($prod as $pro)
         {
@@ -307,9 +346,21 @@ class ProductController extends Controller
         {
             return redirect()->back()->with('message2', 'Producto No Existe');
         }
-        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 7');
-        $cantidadB1=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = 1');
-        //dd('bodega='.$quantity[0]->resu.' vitrina='.$cantidadVitrina[0]->resu);
+        foreach ($statusProduct as $item)
+        {
+            if($item->STS_description == 'BODEGA 2')
+            {
+                $bodega2 = $item->STS_id;
+            }
+            elseif($item->STS_description == 'BODEGA 1')
+            {
+                $bodega1 = $item->STS_id;
+            }
+        }
+        $quantity=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = '.$bodega2);
+        $cantidadB1=  DB::select('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = '.$bodega1);
+
+        //dd('SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = '.$bodega2.' - SELECT CAST( QTY_description AS integer) as resu from quantity_products WHERE PDT_id = '. $producto.' AND STS_id = '.$bodega1);
         if($quantity == "" || $quantity == null || $quantity[0]->resu == 0) //verifico si el producto existe o si su stock es de 0
         {
             return redirect()->back()->with('message2', 'No hay stock registrado');
@@ -323,17 +374,17 @@ class ProductController extends Controller
             //dd('bodega='.$quantity.' vitrina='.$cantidadVitrina);
 
             //INSERCION DE CANTIDAD DE  PRODUCTO EXISTENTE - 1
-            $update = $this->updateSTG2($producto,$quantity,$nombreProduct,$cantidadB1);
+            $update = $this->updateSTG2($producto,$quantity,$nombreProduct,$cantidadB1,$bodega1,$bodega2);
             return $update;
         }
 
     }
-    public function updateSTG2($id,$quantity,$nombre,$bodega1)
+    public function updateSTG2($id,$quantity,$nombre,$bodega1,$Nbodega1,$Nbodega2)
     {
 
         //UPDATE persondata SET edad=edad*2, edad=edad+1;
-        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = 7');
-        DB::update('UPDATE quantity_products SET QTY_description ='.$bodega1.' WHERE PDT_id = '.$id.' AND STS_id = 1');
+        DB::update('UPDATE quantity_products SET QTY_description ='.$quantity.' WHERE PDT_id = '.$id.' AND STS_id = '.$Nbodega2);
+        DB::update('UPDATE quantity_products SET QTY_description ='.$bodega1.' WHERE PDT_id = '.$id.' AND STS_id = '.$Nbodega1);
 
 
 
@@ -436,7 +487,7 @@ class ProductController extends Controller
        //dd('UPDATE products FROM products SET PDT_name ="'. $request->input('name') .'" PDT_brand ="'. $request->input('brand') .'" PDT_price ="'. $request->input('price') .'" PDT_code ="'. $request->input('code') .'" PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
 
         DB::update('UPDATE products SET PDT_name ="'. $request->input('name') .'", PDT_brand ="'. $request->input('brand') .'", PDT_price ="'. $request->input('price') .'", PDT_code ="'. $request->input('code') .'", PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
-        return redirect('/productos')->with('message', 'Producto Editado Exitosamente');
+        return redirect('/productos')->with('message', 'Cambio de Estado Realizado');
     }
 
 
@@ -477,5 +528,31 @@ class ProductController extends Controller
     {
         DB::delete('delete from users where id = ?',[$id]) ;
         return redirect('/rusuario')->with('message', 'Usuario Eliminado Exitosamente');
+    }
+    public function obtener_datos_stock2()
+    {
+
+        $resumido = DB::select("SELECT
+                    producto.PDT_id AS id,
+                    producto.PDT_name AS name,
+                    producto.PDT_brand AS brand,
+                    producto.PDT_price AS price,
+                    producto.PDT_weight as weight,
+                    type_products.TPR_description AS type,
+                    weight_products.WGT_description AS Tweight,
+                    producto.PDT_code AS code
+                        FROM
+                            products AS producto
+                        LEFT JOIN type_products AS type_products ON type_products.TPR_id = producto.TPR_type
+                        LEFT JOIN weight_products AS weight_products ON weight_products.WGT_id = producto.WGT_type");
+        return DataTables::of($resumido)
+            ->addColumn('action', function ($resumido) {
+                return '
+                                
+                <a href="' . route('Qlist',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-success eliminar_boton">
+                <i class="glyphicon glyphicon-list-alt"></i> Detalles</a>';
+            })
+
+            ->make(true);
     }
 }

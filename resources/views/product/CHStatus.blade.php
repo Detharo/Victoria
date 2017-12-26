@@ -31,6 +31,7 @@
                                 <td>ID</td>
                                 <td>Nombre</td>
                                 <td>Cantidad Actual</td>
+                                <td>Código de Barras</td>
                                 <td>Estado/Bodega Actual</td>
                                 <td>Operaciones</td>
                             </tr>
