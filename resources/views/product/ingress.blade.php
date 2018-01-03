@@ -9,7 +9,6 @@
                     
                     <div class="panel-heading ">Registro de Producto</div>
 
-
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('product.store') }}">
                             {{ csrf_field() }}
@@ -61,7 +60,7 @@
                                 <label for="PDT_price" class="col-md-4 control-label">Precio:</label>
 
                                 <div class="col-md-6">
-                                    <input id="PDT_price" type="text" class="form-control" name="PDT_price" value="{{ old('PDT_price') }}" required autofocus>
+                                    <input id="PDT_price" type="number" class="form-control" name="PDT_price" value="{{ old('PDT_price') }}" required autofocus>
 
                                     @if ($errors->has('PDT_price'))
                                         <span class="help-block">
@@ -73,21 +72,23 @@
                                 <!---------------------------------------------TIPO DE PRODUCTO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('TPR_type') ? ' has-error' : '' }}">
                                 <label for="TPR_type" class="col-md-4 control-label">Tipo Producto:</label>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                 <select name="TPR_type" id="" class="form-control">
-                                    <option value="">Seleccione Tipo de Producto...</option>
+                                    <option value="">Seleccione Tipo...</option>
                                     @foreach($typeProduct as $type)
                                         <option value="{{ $type->TPR_id }}"> {{$type->TPR_description}} </option>
                                         @endforeach
                                 </select>
                                 </div>
+                                <div class="col-md-2"><a href="{{ route('typeproduct.create' )}}" class="btn btn-default pull-right"><span class=""></span> Agregar </a></div>
+
                             </div>
                                 <!---------------------------------------------PESO---------------------------------------------------->
                             <div class="form-group{{ $errors->has('PDT_weight') ? ' has-error' : '' }}">
                                 <label for="PDT_weight" class="col-md-4 control-label">Peso:</label>
 
                                 <div class="col-md-2">
-                                    <input id="PDT_weight" type="text" class="form-control" name="PDT_weight" value="{{ old('PDT_weight') }}" required autofocus>
+                                    <input id="PDT_weight" type="number" class="form-control" name="PDT_weight" value="{{ old('PDT_weight') }}" required autofocus>
 
                                     @if ($errors->has('PDT_weight'))
                                         <span class="help-block">

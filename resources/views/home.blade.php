@@ -39,9 +39,10 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="list-group">
+                        @if (Auth::user()->TUS_id == 1)
                         <h3>Módulo Productos</h3>
                         <a href="{{route('product.create')}}" class="list-group-item"><span class=""></span> Ingresar Productos<span><h6 class="pull-right"><i>Formulario de Ingreso de nuevos productos al sistema</i></h6></span></a>
-                    @if (Auth::user()->TUS_id == 1)
+
                             <a href="{{ route('typeproduct.create' )}}" class="list-group-item"><span class=""></span> Agregar Tipos de Productos<span><h6 class="pull-right"><i>Agregar un nuevo tipo de producto</i></h6></span></a>
                             <a href="{{ url('/stock' )}}" class="list-group-item"><span class=""></span> Agregar Stock<span><h6 class="pull-right"><i>Agrega stock a un producto</i></h6></span></a>
 
@@ -54,7 +55,7 @@
                         <a href="{{ url('/productos2') }}" class="list-group-item"><span class=""></span> Listar Productos<span><h6 class="pull-right"><i>Muestra todos los productos registrados en el sistema</i></h6></span></a>
                         @endif
                             <a href="{{ url('product.vendido') }}" class="list-group-item"><span class=""></span> Listar Productos Vendidos<span><h6 class="pull-right"><i>Muestra todos los productos en estado Vendido</i></h6></span></a>
-                            <a href="{{ url('product.merma') }}" class="list-group-item"><span class=""></span> Listar en Merma<span><h6 class="pull-right"><i>Muestra todos los productos en estado Merma</i></h6></span></a>
+                            <a href="{{ url('product.merma') }}" class="list-group-item"><span class=""></span> Listado Merma<span><h6 class="pull-right"><i>Muestra todos los productos en estado Merma</i></h6></span></a>
                             @if (Auth::user()->TUS_id == 1) <h3>Módulo Usuarios</h3>
                         <a href="{{ route('rusuario' )}}" class="list-group-item"><span class=""></span> Agregar Usuarios<span><h6 class="pull-right"><i>Formulario de registro para nuevos empleados</i></h6></span></a>
                     @endif

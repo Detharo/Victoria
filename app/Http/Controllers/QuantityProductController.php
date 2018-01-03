@@ -97,7 +97,7 @@ class QuantityProductController extends Controller
                 $dcs->DCS_quantity = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
                 $dcs->save();
 
-                return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
             }
             else{
                 $quantity = (int) $quantity[0]->resu;
@@ -143,7 +143,7 @@ class QuantityProductController extends Controller
                 $sold->SLD_quantity = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
                 $sold->save();
 
-                return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
             }
             else{
                 $quantity = (int) $quantity[0]->resu;
@@ -186,7 +186,7 @@ class QuantityProductController extends Controller
         {
             $qty->QTY_description = $request->QTY_description;   //INSERCION DE CANTIDAD DE  PRODUCTO NUEVO
             $qty->save();
-            return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+            return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
         }
         else{
             $quantity = (int) $quantity[0]->resu;
@@ -227,8 +227,7 @@ class QuantityProductController extends Controller
     public function Qlist($id)
     {
       // dd([$id]);
-        if (Auth::user()->TUS_id == 1)
-        {
+
         $product = Product::all();
         $typeProduct = TypeProduct::all();
         $statusProduct = StatusProduct::all();
@@ -244,11 +243,28 @@ class QuantityProductController extends Controller
     // $data = QuantityProduct::select($id);
         //dd($data);
         return view('product.quantity',compact('product','typeProduct','id','statusProduct','quantityProduct','weightProduct'));
-        }
-        else
-        {
-            return redirect()->back()->with('message', 'Permiso Denegado');
-        }
+
+    }
+    public function Qlist2($id)
+    {
+        // dd([$id]);
+
+        $product = Product::all();
+        $typeProduct = TypeProduct::all();
+        $statusProduct = StatusProduct::all();
+        $quantityProduct = QuantityProduct::all();
+        $weightProduct = WeightProduct::all();
+        // $produ = DB::select('SELECT * FROM quantity_products WHERE PDT_id= ',$id);
+        // $id = DB::select('SELECT producto.PDT_name,SUM(stock.QTY_description) as resu, bodega.STS_description FROM quantity_products stock JOIN status_products bodega ON bodega.STS_id=stock.STS_id JOIN products producto ON producto.PDT_id=stock.PDT_id WHERE producto.PDT_id = '.$id.' GROUP BY bodega.STS_description;');
+
+
+
+        //dd($id[0]->resu);
+
+        // $data = QuantityProduct::select($id);
+        //dd($data);
+        return view('product.quantity2',compact('product','typeProduct','id','statusProduct','quantityProduct','weightProduct'));
+
     }
 
     /**
@@ -266,7 +282,7 @@ class QuantityProductController extends Controller
 
 
 
-        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
     }
     /**
      * Update the specified resource in storage.
@@ -283,7 +299,7 @@ class QuantityProductController extends Controller
 
 
 
-        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
     }
     /**
      * Update the specified resource in storage.
@@ -300,7 +316,7 @@ class QuantityProductController extends Controller
 
 
 
-        return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+        return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
     }
     /**
      * Update the specified resource in storage.
@@ -408,7 +424,7 @@ class QuantityProductController extends Controller
                 {
                     // no existe
                     DB::insert('insert into decrease_products (DCS_quantity,PDT_ID) values ('. $new_quantity .','. $PDT_id.')');
-                    return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                    return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
                 }
                 else{
                     // el estado si existe
@@ -416,7 +432,7 @@ class QuantityProductController extends Controller
                     $new_quantity = $new_quantity+$qty_actual;
 
                     DB::update('UPDATE decrease_products SET DCS_quantity = '.$new_quantity.' WHERE PDT_id = '.$PDT_id);
-                    return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                    return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
                 }
             }
             ELSE IF($STS_id == "VENDIDO")
@@ -428,7 +444,7 @@ class QuantityProductController extends Controller
                     // no existe
                     DB::insert('insert into sold_products  (SLD_quantity,PDT_id) values ('. $new_quantity .','. $PDT_id.')');
 
-                    return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                    return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
                 }
                 else{
                     // el estado si existe
@@ -436,7 +452,7 @@ class QuantityProductController extends Controller
                     $new_quantity = $new_quantity+$qty_actual;
 
                     DB::update('UPDATE sold_products SET SLD_quantity = '.$new_quantity.' WHERE PDT_id = '.$PDT_id);
-                    return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                    return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
                 }
             }
             //Consultando si existe y de cuanto es el stock del ESTADO DESTINO DE A TABLA STATUS
@@ -446,7 +462,7 @@ class QuantityProductController extends Controller
             {
                 // no existe
                 DB::insert('insert into quantity_products (QTY_description,PDT_ID,STS_id) values ('. $new_quantity .','. $PDT_id.','.$STS_id.')');
-                return redirect()->back()->with('message', 'Producto Registrado Exitosamente');
+                return redirect()->back()->with('message', 'Stock Registrado Exitosamente');
             }
             else{
                 // el estado si existe

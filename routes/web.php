@@ -13,7 +13,7 @@
 
 Route::get('/stock/listado', 'ProductController@obtener_datos_stock');
 Route::get('/stock/listado2', 'ProductController@obtener_datos_stock2');
-Route::post('/producto/editar','ProductController@editar_producto')->name('editar_producto');
+Route::post('/producto/editar','ProductController@editar_productos')->name('editar_productos');
 Route::any('/producto/eliminar/{PDT_id}','ProductController@eliminar_desde_datatable')->name('eliminar_producto');
 
 Route::get('user/rusuario', 'ProductController@obtener_datos_user');
@@ -44,6 +44,9 @@ Route::post('/product.CHStatus','QuantityProductController@actSTS')->name("actST
 
 Route::any('/product.quantity/{PDT_id}','QuantityProductController@Qlist')->name("Qlist");
 
+Route::any('/product.quantity2/{PDT_id}','QuantityProductController@Qlist2')->name("Qlist2");
+
+
 Route::put('/product.quantity/{PDT_code}','QuantityProductController@update')->name("Qupdate");
 
 Route::get('/productos','ProductController@list');
@@ -53,6 +56,7 @@ Route::get('/productos2','ProductController@list2');
 Route::get('/rusuario','ProductController@rusuario')->name("rusuario");
 
 Route::resource('/typeproduct','TypeProductController');
+
 
 Route::name("eliminaTPR")->delete('delete/{TPR_id}','TypeProductController@destroy');
 

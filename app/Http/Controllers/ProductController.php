@@ -482,12 +482,12 @@ class ProductController extends Controller
         return redirect('/productos')->with('message', 'Producto Eliminado Exitosamente');
     }
 
-    public function editar_producto(Request $request)
+    public function editar_productos(Request $request)
     {
        //dd('UPDATE products FROM products SET PDT_name ="'. $request->input('name') .'" PDT_brand ="'. $request->input('brand') .'" PDT_price ="'. $request->input('price') .'" PDT_code ="'. $request->input('code') .'" PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
 
         DB::update('UPDATE products SET PDT_name ="'. $request->input('name') .'", PDT_brand ="'. $request->input('brand') .'", PDT_price ="'. $request->input('price') .'", PDT_code ="'. $request->input('code') .'", PDT_weight ="'. $request->input('weight') .'" WHERE PDT_id ="'. $request->input('id_edit') .'"');
-        return redirect('/productos')->with('message', 'Cambio de Estado Realizado');
+        return redirect('/productos')->with('message', 'Producto Esditado Correctamente');
     }
 
 
@@ -549,7 +549,7 @@ class ProductController extends Controller
             ->addColumn('action', function ($resumido) {
                 return '
                                 
-                <a href="' . route('Qlist',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-success eliminar_boton">
+                <a href="' . route('Qlist2',['Product'=> $resumido->id]) . '" method ="POST" class="btn btn-xs btn-success eliminar_boton">
                 <i class="glyphicon glyphicon-list-alt"></i> Detalles</a>';
             })
 

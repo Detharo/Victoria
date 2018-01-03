@@ -49,7 +49,7 @@
 
 </div>
 <div class="modal fade" id="modal_editar" role="dialog">
-    <form class="form-horizontal" method="POST" action="{{ route('editar_producto') }}">
+    <form class="form-horizontal" method="POST" action="{{ route('editar_productos') }}">
         {{ csrf_field() }}
         <div class="modal-dialog">
             <div class="modal-content">
