@@ -3,7 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-xs-4 col-md-2">
+            <a href="#" >
+                <img src="{{ asset('/img/logoDA2.png') }}" width="270" height="300" alt="Don Agustin">
+            </a>
+        </div>
+        <div class="col-md-8 col-md-offset-2"><h4>Sistema de Administración, Gestión y Ventas</h4>
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 
@@ -52,6 +57,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

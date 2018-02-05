@@ -46,8 +46,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ url('/productos') }}">Productos</a></li>
+                            <!--<li><a href="{{ route('login') }}"  >Login</a></li> -->
                         @else
                             <div class="navbar-brand"><a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();

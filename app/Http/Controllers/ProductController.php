@@ -442,6 +442,11 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Producto Eliminado Exitosamente');
     }
 
+    public function granel()
+    {
+        return view('product.granel');
+    }
+
     public function obtener_datos_stock()
     {
 

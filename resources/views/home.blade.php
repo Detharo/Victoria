@@ -47,6 +47,7 @@
                             <a href="{{ url('/stock' )}}" class="list-group-item"><span class=""></span> Agregar Stock<span><h6 class="pull-right"><i>Agrega stock a un producto</i></h6></span></a>
 
                         <a href="{{ url('/CHStatus' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Estado de Producto<span><h6 class="pull-right"><i>Cambia el estado o la posición de un producto</i></h6></span></a>
+                        <a href="{{ url('/granel' )}}" disabled class="list-group-item"><span class=""></span> Cambiar Peso de Producto<span><h6 class="pull-right"><i>Cambia el peso de productos para granel</i></h6></span></a>
                         @endif
 
                             <h3>Módulo Información</h3>

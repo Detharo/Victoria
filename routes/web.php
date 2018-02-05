@@ -25,7 +25,7 @@ Route::get('/stock/quantity', 'QuantityProductController@obtener_datos_quantity'
 Route::post('/quantity/editar','QuantityProductController@editar_quantity')->name('editar_producto');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -52,6 +52,7 @@ Route::put('/product.quantity/{PDT_code}','QuantityProductController@update')->n
 Route::get('/productos','ProductController@list');
 Route::get('/productos2','ProductController@list2');
 
+Route::get('/granel','ProductController@granel');
 
 Route::get('/rusuario','ProductController@rusuario')->name("rusuario");
 
